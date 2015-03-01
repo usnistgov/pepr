@@ -70,35 +70,36 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
-	print "Running step 1 or 9"
+	print "Running step 1 of 4"
 	if(pipe != 'full'):
 		print "skipping fastq download"
 	else:
 		print "downloading fastq"
-		# get_fastq_pipeline(analysis_params)
+		get_fastq_pipeline(analysis_params)
 
 
-	print "Running step 2 or 9"
-	# index_ref_pipeline(analysis_params)
+	print "Running step 2 of 4"
+	index_ref_pipeline(analysis_params)
 
 
-	print "Running step 3 or 9"
-	# map_miseq_pipeline(analysis_params, pipeline_params)
+	print "Running step 3 of 4"
+	map_miseq_pipeline(analysis_params, pipeline_params)
 	# map_pgm_pipeline(analysis_params, pipeline_params)
 
-	print "Running step 4 or 9"
+	print "Running step 4 of 4"
 	# pilon_pipeline(analysis_params)
 
 	
 
 def run_genome_characterization_pipeline(parameters):
 	''' Full prmcp miseq pipeline takes an input parameter file and;
-	1. indexes revised reference
-	2. maps all reads to revised reference
+	1. indexes reference
+	2. maps all reads to reference
 	3. calculates fastq and bam summary statistics
 	4. performs homogeneity analysis (pairwise variant calling) for miseq data
 	5. generates base level summary for reads mapped to the genome
 	'''	
+	# not sure whether to include indexing and mapping reads to reference or just use output from re-eval?
 	print "defining run parameters"
 	param_file = file(parameters, 'r')
 	pipeline_params = yaml.load(param_file)
