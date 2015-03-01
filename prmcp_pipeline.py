@@ -37,6 +37,12 @@ def run_genome_eval_pipeline(parameters):
 
 	print "Running step 4 or 9"
 	init_analysis('pilon', analysis_params, run_by = 'plat')
+	define_pilon_run('miseq', analysis_params)
+
+	print "plat params"
+	print analysis_params['miseq']
+	print "pilon params"
+	print analysis_params['pilon']
 	pilon_pipeline(analysis_params)
 
 	print "printing pipeline parameters to file ..."
