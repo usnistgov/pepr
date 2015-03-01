@@ -9,7 +9,6 @@ from prepc.define_pipeline_params import define_map_run
 
 def main(analysis_params, pipeline_params):
     for i in analysis_params['miseq']['accessions']:
-    	define_map_run(i, analysis_params, pipeline_params)
         ## running bwa_mem
         bwa_map_fq( in_ref = analysis_params['ref'],
                     in_fq1 = analysis_params[i]['fastq1'],

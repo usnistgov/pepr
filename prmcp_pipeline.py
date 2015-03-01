@@ -19,9 +19,25 @@ def run_genome_eval_pipeline(parameters):
 	print "defining run parameters"
 	param_file = file(parameters, 'r')
 	pipeline_params = yaml.load(param_file)
+
 	#initiating project
 	analysis_params = init_prj(pipeline_params)
 	accession_params(pipeline_params, analysis_params)
+
+	#mapping params
+	init_analysis('mapping', analysis_params, run_by = 'accession')
+	for i in analysis_params['accessions']:
+		define_map_run(i, analysis_params, pipeline_params)
+
+	#pilon params
+	init_analysis('pilon', analysis_params, run_by = 'plat')
+	define_pilon_run('miseq', analysis_params)
+
+	print "printing pipeline parameters to file ..."
+	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
+							"_" + pipeline_params['project_id'] + "_parameters.yaml"
+	with open(param_out, 'w') as f:
+  		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
 	print "Running step 1 or 9"
 	get_fastq_pipeline(analysis_params)
@@ -31,17 +47,13 @@ def run_genome_eval_pipeline(parameters):
 
 
 	print "Running step 3 or 9"
-	init_analysis('mapping', analysis_params, run_by = 'accession')
 	map_miseq_pipeline(analysis_params, pipeline_params)
 	map_pgm_pipeline(analysis_params, pipeline_params)
 
 	print "Running step 4 or 9"
-	init_analysis('pilon', analysis_params, run_by = 'plat')
-	define_pilon_run('miseq', analysis_params)
 	pilon_pipeline(analysis_params)
 
-	print "printing pipeline parameters to file ..."
-	yaml.dump(analysis_params)
+	
 
 def run_genome_characterization_pipeline(parameters):
 	''' Full prmcp miseq pipeline takes an input parameter file and;
