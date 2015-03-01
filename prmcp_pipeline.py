@@ -4,9 +4,9 @@ from index_ref_pipeline import main as index_ref_pipeline
 from map_miseq_pipeline import main as map_miseq_pipeline 
 from map_pgm_pipeline import main as map_pgm_pipeline 
 from pilon_pipeline import main as pilon_pipeline 
-from qc_stats_pipeline import main as qc_stats_pipeline 
-from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline 
-from consensus_base_pipeline import main as consensus_base_pipeline 
+# from qc_stats_pipeline import main as qc_stats_pipeline 
+# from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline 
+# from consensus_base_pipeline import main as consensus_base_pipeline 
 from prepc.define_pipeline_params import *
 
 def run_genome_eval_pipeline(parameters):
@@ -32,8 +32,8 @@ def run_genome_eval_pipeline(parameters):
 
 	print "Running step 3 or 9"
 	init_analysis('mapping', analysis_params, run_by = 'accession')
-	map_miseq_pipeline(analysis_params)
-	map_tmap_pipeline(analysis_params)
+	map_miseq_pipeline(analysis_params, pipeline_params)
+	map_pgm_pipeline(analysis_params, pipeline_params)
 
 	print "Running step 4 or 9"
 	init_analysis('pilon', analysis_params, run_by = 'plat')

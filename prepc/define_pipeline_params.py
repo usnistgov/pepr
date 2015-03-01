@@ -15,8 +15,9 @@ def move_ref_to_ref_dir(ref, name, analysis_params):
     #copying ref to new ref directory
     subprocess.call(['cp', ref, analysis_params['ref_dir']])
     
-    ref_name = os.path.splitext(ref)[0]
-    analysis_params['ref_root'] = os.path.split(ref_name)[1]
+    ref_name = os.path.split(ref)[1]
+    analysis_params['ref'] = analysis_params['ref_dir'] + "/" + ref_name
+    analysis_params['ref_root'] = os.path.splitext(ref_name)[0]
     
 def init_prj(pipeline_params):
     '''initiating project generates directory structure, copies ref to directory, and initiates the analysis_params dictionary
@@ -90,7 +91,7 @@ def init_analysis(analysis_name, analysis_params, run_by):
     elif run_by == 'plat':
         for i in ['miseq','pgm']: # want to fix later to platfoms are not hard coded
             plat_log_dir = analysis_root + "/log/" + i
-            subprocess.call(['mkdir',-'p', plat_log_dir])
+            subprocess.call(['mkdir','-p', plat_log_dir])
             analysis_params[i][analysis_name + "_log"] = plat_log_dir
     elif run_by == 'miseq_pairs':
         miseq_accessions = analysis_params['miseq']['accessions']
@@ -130,6 +131,7 @@ def define_map_run(accession, analysis_params, pipeline_params):
                                 (("RGPU=%s") % 'barcoded'),
                                 (("RGSM=%s") % accession),
                                 (("RGCN=%s") % pipeline_params['center'])]
+    # return analysis_params
 
 def define_pilon_run(plat, analysis_params): 
     ''' Define parameters for running pilon 
