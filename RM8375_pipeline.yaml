@@ -3,7 +3,7 @@
 project_id: MG001
 center: NIST
 RM: RM8375
-ref: /Users/nolson/Desktop/micro_rm_dev/data/RM8375/ref/CFSAN008157.HGAP.fasta
+ref: /pepr-data/CFSAN008157.HGAP.fasta
 exp_design:
   miseq:
     - accession: SRR1555296
