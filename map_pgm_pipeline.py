@@ -1,0 +1,20 @@
+# ## Mapping PGM data using tmap
+# To Do
+# 1. remove tmp after run
+# 2. add run_id to log files
+# 3. add parameters/ help with verbose command
+from prepc.sam_to_bam_pipeline import *
+
+def main(analysis_params):
+    for i in analysis_params['pgm']['accessions']:
+        ## running tmap
+        tmap_map_fq( in_ref = analysis_params['ref'],
+                     in_fq = analysis_params[i]['fastq1'],
+                     out_sam = analysis_params[i]['sam'],
+                     log_dir = analysis_params[i]['mapping_log'])
+
+        #sorting, indexing and adding header
+        sam_to_bam(i, analysis_params)
+
+# if __name__ == '__main__':
+#     main(sys.argv[1])

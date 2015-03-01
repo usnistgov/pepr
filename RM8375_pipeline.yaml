@@ -1,0 +1,81 @@
+## peprs parameters for RM8375
+---
+project_id: MG001
+center: NIST
+RM: RM8375
+ref: /Users/nolson/Desktop/micro_rm_dev/data/RM8375/ref/CFSAN008157.HGAP.fasta
+exp_design:
+  miseq:
+    - accession: SRR1555296
+      vial: 0
+      rep: 1
+    - accession: SRR1555297
+      vial: 0
+      rep: 2
+    - accession: SRR1555298
+      vial: 1
+      rep: 1
+    - accession: SRR1555299
+      vial: 1
+      rep: 2
+    - accession: SRR1555300
+      vial: 2
+      rep: 1
+    - accession: SRR1555301
+      vial: 2
+      rep: 2
+    - accession: SRR1555302
+      vial: 3
+      rep: 1
+    - accession: SRR1555303
+      vial: 3
+      rep: 2
+    - accession: SRR1555304
+      vial: 4
+      rep: 1
+    - accession: SRR1555305
+      vial: 4
+      rep: 2
+    - accession: SRR1555306
+      vial: 5
+      rep: 1
+    - accession: SRR1555307
+      vial: 5
+      rep: 2
+    - accession: SRR1555308
+      vial: 6
+      rep: 1
+    - accession: SRR1555309
+      vial: 6
+      rep: 2
+    - accession: SRR1555310
+      vial: 7
+      rep: 1
+    - accession: SRR1555311
+      vial: 7
+      rep: 2
+  pgm:
+    - accession: SRR1393710
+      vial: 0
+      rep: 1
+    - accession: SRR1393711
+      vial: 1
+      rep: 1
+    - accession: SRR1393713
+      vial: 2
+      rep: 1
+    - accession: SRR1393714
+      vial: 3
+      rep: 1
+    - accession: SRR1393716
+      vial: 4
+      rep: 1
+    - accession: SRR1393718
+      vial: 5
+      rep: 1
+    - accession: SRR1393719
+      vial: 6
+      rep: 1
+    - accession: SRR1393721
+      vial: 7
+      rep: 1
