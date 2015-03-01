@@ -4,8 +4,9 @@ import re
 import subprocess
 from prepc.sra_commands import *
 
-def main(pipeline_params):
-    for i in pipeline_params['accessions']:
-    	acc_log_dir = pipeline_params['fastq_dir'] + "/log/" + i
-        subprocess.call(['mkdir','-p', acc_log_dir])
-        sra_get_fastq(i,pipeline_params['fastq_dir'], acc_log_dir)
+def main(analysis_params):
+	for i in ['miseq','pgm']:
+	    for j in analyis_params['accessions']:
+    		acc_log_dir = analyis_params['fastq_dir'] + "/log/" + j
+        	subprocess.call(['mkdir','-p', acc_log_dir])
+        	sra_get_fastq(i,j,analyis_params['fastq_dir'], acc_log_dir)
