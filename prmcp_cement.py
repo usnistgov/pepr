@@ -13,17 +13,28 @@ class MyAppBaseController(controller.CementBaseController):
         #     )
 
         arguments = [
-            (['-A', '--All'], dict(dest='foo', action='store', help='the notorious foo option')),
+            (['-P', '--pipeline'], dict(dest='pipe', action='store', help='defining pipeline to run')),
             (['-C'], dict(action='store_true', help='the big C option'))
             ]
-
+        # need to workout defining pipeline to run ...
     @controller.expose(hide=True, aliases=['run'])
     def default(self):
-        self.app.log.info('Executing Genome Evaluation')
-        if self.app.pargs.params:
-            self.app.log.info("Processing parameter file '%s'." % \
-                         self.app.pargs.params)
-            run_genome_eval_pipeline(self.app.pargs.params)
+        if self.app.pargs.config:
+            self.app.log.info("Processing config file '%s'." % \
+                         self.app.pargs.config)
+            if self.app.args.pipe:
+                if self.app.arps.pipe == "evaluation":
+                    run_genome_eval_pipeline(self.app.pargs.config)
+                elif self.app.arps.pipe == "re-evaluation":
+                    run_genome_eval_pipeline(self.app.pargs.config, pipe = "skip_get_fastq")
+                elif self.app.args.pipe == "characterzation":
+                    run_genome_characterization_pipeline(self.app.pargs.config)
+                else:
+                    self.app.log.info("Define which pipeline to run using -P")
+            else:
+                self.app.log.info("Define which pipeline to run using -P")     
+        else:
+            self.app.log.info("Pipeline requires config file identified with -c")
             
 """
     @controller.expose(help="this command does relatively nothing useful.")
@@ -61,7 +72,7 @@ try:
     app.setup()
 
     # add arguments to the parser
-    app.args.add_argument('-p', '--params', action='store', metavar='STR',
+    app.args.add_argument('-c', '--config', action='store', metavar='STR',
                           help='yaml pipeline parameters file')
 
     # run the application
