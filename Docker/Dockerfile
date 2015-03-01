@@ -74,6 +74,8 @@ RUN wget http://sourceforge.net/projects/varscan/files/VarScan.v2.3.7.jar;\
 
 # installing cement
 RUN pip install cement
+RUN pip install pyYAML
+
 VOLUME /pepr-data
 WORKDIR /pepr-data
 
