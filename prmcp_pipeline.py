@@ -35,7 +35,7 @@ def run_genome_eval_pipeline(parameters):
 
 	print "printing pipeline parameters to file ..."
 	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
-							"_" + pipeline_params['project_id'] + "_parameters.yaml"
+							"_" + pipeline_params['project_id'] + "_evaluation_parameters.yaml"
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
@@ -63,19 +63,54 @@ def run_genome_characterization_pipeline(parameters):
 	4. performs homogeneity analysis (pairwise variant calling) for miseq data
 	5. generates base level summary for reads mapped to the genome
 	'''	
+	print "defining run parameters"
+	param_file = file(parameters, 'r')
+	pipeline_params = yaml.load(param_file)
+
+	#initiating project
+	analysis_params = init_prj(pipeline_params)
+	accession_params(pipeline_params, analysis_params)
+
+	#mapping params
+	init_analysis('mapping', analysis_params, run_by = 'accession')
+	for i in analysis_params['accessions']:
+		define_map_run(i, analysis_params, pipeline_params)
+
+	#qc_stats params
+	init_analysis('qc_stats', analysis_params, run_by = 'accession')
+	for i in analysis_params['accessions']:
+		define_qc_run(i, analysis_params)
+
+	#homogeneity params
+	init_analysis('homogeneity', analysis_params, run_by = 'pairs')
+	miseq_accessions = analysis_params['miseq']['accessions']
+    for i in xrange(0, len(miseq_accessions)):
+        for j in xrange(i+1, len(miseq_accessions)):
+			define_homogeneity_run(accession1, accession2 ,analysis_params)	
+
+	#consensus_base params
+	init_analysis('consensus_base', analysis_params, run_by = 'accession')
+	for i in analysis_params['accessions']:
+		define_consensus_base_run(accession,analysis_params)
+
+	print "printing pipeline parameters to file ..."
+	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
+							"_" + pipeline_params['project_id'] + "_charaterization_parameters.yaml"
+
+
 
 	print "Running step 1 or 5"
-	index_ref_pipeline(parameters)
+	#index_ref_pipeline(parameters)
 
 	print "Running step 2 or 5"
-	map_miseq_pipeline(parameters)
-	map_pgm_pipeline(parameters)
+	#map_miseq_pipeline(parameters)
+	#map_pgm_pipeline(parameters)
 
 	print "Running step 3 or 5"
-	qc_stats_pipeline(parameters)
+	#qc_stats_pipeline(parameters)
 
 	print "Running step 4 or 5"
-	homogeneity_analysis_pipeline(parameters)
+	#homogeneity_analysis_pipeline(parameters)
 
 	print "Running step 5 or 5"
-	consensus_base_pipeline(parameters)
+	#consensus_base_pipeline(parameters)

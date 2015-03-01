@@ -43,7 +43,7 @@ def dedup_realign_single_bam(run_params, pipeline_params):
                 out_dir = run_params['log_dir'],
                 intervals_file = run_params['intervals_file'],
                 log_dir = run_params['log_dir'])
-    
+    # note no realign step ....
     bam_markdup(in_bam = run_params['realign_file'], 
                 out_bam = run_params['markdup_file'], 
                 metrics_file = run_params['metrics_file'],
