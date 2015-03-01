@@ -23,7 +23,7 @@ def main(analysis_params):
                        out_bam=analysis_params['miseq']['pilon_merged_bam'],\
                        log_dir=analysis_params['miseq']['pilon_log'])
     
-    samtools_bam_index(in_bam=analysis_params['merged_bam'], \
+    samtools_bam_index(in_bam=analysis_params['miseq']['pilon_merged_bam'], \
                        log_dir=analysis_params['miseq']['pilon_log'])
     
     pilon_fixassembly(in_ref=analysis_params['ref'],in_bam=analysis_params['miseq']['pilon_merged_bam'],\
