@@ -84,10 +84,10 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 
 	print "Running step 3 of 4"
 	map_miseq_pipeline(analysis_params, pipeline_params)
-	# map_pgm_pipeline(analysis_params, pipeline_params)
+	map_pgm_pipeline(analysis_params, pipeline_params)
 
 	print "Running step 4 of 4"
-	# pilon_pipeline(analysis_params)
+	pilon_pipeline(analysis_params)
 
 	
 
@@ -125,7 +125,7 @@ def run_genome_characterization_pipeline(parameters):
 
 	# Still need to work out bug in parameter definitions
 	#homogeneity params
-	init_analysis('homogeneity', analysis_params, run_by = 'pairs')
+	init_analysis('homogeneity', analysis_params, run_by = 'miseq_pairs')
 	miseq_accessions = analysis_params['miseq']['accessions']
 	for i in xrange(0, len(miseq_accessions)):
 		for j in xrange(i+1, len(miseq_accessions)):
@@ -134,18 +134,20 @@ def run_genome_characterization_pipeline(parameters):
 	print "printing pipeline parameters to file ..."
 	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
 							"_" + pipeline_params['project_id'] + "_charaterization_parameters.yaml"
-
+	with open(param_out, 'w') as f:
+  		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
 
 	print "Running step 1 or 5"
-	# index_ref_pipeline(parameters)
+	index_ref_pipeline(analysis_params)
 
 	print "Running step 2 or 5"
-	# map_miseq_pipeline(parameters)
-	# map_pgm_pipeline(parameters)
+	# map_miseq_pipeline(analysis_params)
+	# map_pgm_pipeline(analysis_params)
+	map_pipeline(analysis_params)
 
 	print "Running step 3 or 5"
-	# qc_stats_pipeline(parameters)
+	qc_stats_pipeline(analysis_params)
 
 	print "Running step 4 or 5"
 	# homogeneity_analysis_pipeline(parameters)
