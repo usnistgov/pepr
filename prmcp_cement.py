@@ -12,10 +12,10 @@ class MyAppBaseController(controller.CementBaseController):
         #     some_other_option='my default value',
         #     )
 
-        arguments = [
-            (['-L', '--Lpipeline'], dict(dest='blank', action='store', help='defining pipeline to run')),
-            (['-C'], dict(action='store_true', help='the big C option'))
-            ]
+        # arguments = [
+        #     (['-L', '--Lpipeline'], dict(dest='blank', action='store', help='defining pipeline to run')),
+        #     (['-C'], dict(action='store_true', help='the big C option'))
+        #     ]
         # need to workout defining pipeline to run ...
     @controller.expose(hide=True, aliases=['run'])
     def default(self):
@@ -60,7 +60,7 @@ class MySecondController(controller.CementBaseController):
 
 class MyApp(foundation.CementApp):
     class Meta:
-        label = 'helloworld'
+        label = 'mainpipe'
         base_controller = MyAppBaseController
 
 # create the app
