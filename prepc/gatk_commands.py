@@ -1,4 +1,4 @@
-# ### Functions for preparing bams and calling mpileup
+
 
 import sys
 import time
