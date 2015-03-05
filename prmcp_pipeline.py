@@ -1,11 +1,10 @@
 import yaml
 from get_fastq_pipeline import main as get_fastq_pipeline 
 from index_ref_pipeline import main as index_ref_pipeline 
-from map_miseq_pipeline import main as map_miseq_pipeline 
-from map_pgm_pipeline import main as map_pgm_pipeline 
+from map_pipeline import main as map_pipeline 
 from pilon_pipeline import main as pilon_pipeline 
-# from qc_stats_pipeline import main as qc_stats_pipeline 
-# from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline 
+from qc_stats_pipeline import main as qc_stats_pipeline 
+from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline 
 # from consensus_base_pipeline import main as consensus_base_pipeline 
 from prepc.define_pipeline_params import *
 
@@ -83,8 +82,7 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 
 
 	print "Running step 3 of 4"
-	map_miseq_pipeline(analysis_params, pipeline_params)
-	map_pgm_pipeline(analysis_params, pipeline_params)
+	map_pipeline(analysis_params)
 
 	print "Running step 4 of 4"
 	pilon_pipeline(analysis_params)
@@ -138,19 +136,20 @@ def run_genome_characterization_pipeline(parameters):
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
 
-	print "Running step 1 or 5"
-	index_ref_pipeline(analysis_params)
+	print "Running step 1 of 5"
+	#index_ref_pipeline(analysis_params)
 
-	print "Running step 2 or 5"
+	print "Running step 2 of 5"
 	# map_miseq_pipeline(analysis_params)
 	# map_pgm_pipeline(analysis_params)
-	map_pipeline(analysis_params)
+	map_pipeline(analysis_params, refine = True)
 
-	print "Running step 3 or 5"
+
+	print "Running step 3 of 5"
 	qc_stats_pipeline(analysis_params)
 
-	print "Running step 4 or 5"
+	print "Running step 4 of 5"
 	# homogeneity_analysis_pipeline(parameters)
 
-	print "Running step 5 or 5"
+	print "Running step 5 of 5"
 	# consensus_base_pipeline(parameters)
