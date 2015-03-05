@@ -116,7 +116,7 @@ def define_map_run(accession, analysis_params, pipeline_params):
         analysis_params[accession]['fastq1'] = fastq_root + "_1.fastq"
         analysis_params[accession]['fastq2'] = fastq_root + "_2.fastq"
     else:
-        analysis_params[accession]['fastq1'] = fastq_root + "_1.fastq"
+        analysis_params[accession]['fastq1'] = fastq_root + ".fastq"
         analysis_params[accession]['fastq2'] = None
     
     # output file names
