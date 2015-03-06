@@ -2,38 +2,24 @@
 import sys
 import re
 import subprocess
-from prepc.parse_pipeline_params import *
 from prepc.samtools_commands import *
 from prepc.varscan_commands import *
 
-def run_homogeneity(pipeline_params, run_params):
-    '''comparing variants for two input bam files'''
-    print "Running homogeneity pipeline on %s" % (run_params['run_id'])
-    samtools_mpileup_pairs(in_ref= pipeline_params['ref'], 
-                           in_bams= [run_params['bam1_file'], run_params['bam2_file']],
-                           out_mpileup=run_params['mpileup_file'], 
-                           log_dir=run_params['log_dir'])
-    varscan_somatic(in_mpileup=run_params['mpileup_file'], 
-                    snp_out=run_params['varscan_snp_file'], 
-                    indel_out=run_params['varscan_indel_file'], 
-                    log_dir=run_params['log_dir'])
-
-
-
-def main(filename):
-    #read run parameters from input file and map reads to reference using bwa
-    pipeline_params = read_params(filename)
-
+def main(analysis_params):
     # nested for loops for pairwise comparisons
-    datasets = pipeline_params['datasets'].split(",")
-    for i in xrange(0, len(datasets)):
-    	for j in xrange(i+1, len(datasets)):
-            # print "ds 1: %s \t ds 2: %s" % (datasets[i],datasets[j])
-            run_params = define_homogeneity_params(pipeline_params,datasets[i],datasets[j])
-            subprocess.call(['mkdir','-p',run_params['log_dir']])
+    for i in analysis_params['homogeneity']['pairs']:
+        print i
+        samtools_mpileup_pairs(in_ref= analysis_params['ref'], 
+                               in_bams= [analysis_params[i]['bam1_file'], 
+                                            analysis_params[i]['bam2_file']],
+                               out_mpileup=analysis_params[i]['mpileup_file'], 
+                               log_dir=analysis_params[i]['homogeneity_log'])
+        varscan_somatic(in_mpileup=analysis_params[i]['mpileup_file'], 
+                        snp_out=analysis_params[i]['varscan_snp_file'], 
+                        indel_out=analysis_params[i]['varscan_indel_file'], 
+                        log_dir=analysis_params[i]['homogeneity_log'])            
 
-            record_params(pipeline_params,run_params)
-            run_homogeneity(pipeline_params, run_params)
+
 
 # if __name__ == '__main__':
 #     main(sys.argv[1])

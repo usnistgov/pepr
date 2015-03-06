@@ -4,6 +4,17 @@ import sys
 import time
 import subprocess
 
+def samtools_index_ref(in_ref, log_dir):
+    ''' Indexing reference sequence using bwa'''
+    print "Indexing reference sequence with samtools faidx"
+    stderr_file = open(log_dir + "/samtools_index_ref"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
+    out_file = open(log_dir + "/samtools_index_ref"+ time.strftime("-%Y-%m-%d-%H-%M-%S.log"),'w')
+    
+    ## run command
+    faidx_command = ["samtools","faidx",in_ref]
+    subprocess.call(faidx_command, stdout=out_file,stderr=stderr_file)  
+    stderr_file.close()
+
 def samtools_sam_to_bam(in_sam, out_bam, log_dir):
     '''Convert sam to bam'''
     print "Converting sam to bam ..."

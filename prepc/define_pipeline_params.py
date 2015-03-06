@@ -18,7 +18,9 @@ def move_ref_to_ref_dir(ref, name, analysis_params):
     ref_name = os.path.split(ref)[1]
     analysis_params['ref'] = analysis_params['ref_dir'] + "/" + ref_name
     analysis_params['ref_root'] = os.path.splitext(ref_name)[0]
-    
+    analysis_params['ref_dict'] = analysis_params['ref_dir'] + "/" + analysis_params['ref_root'] + ".dict"
+    analysis_params['ref_log'] = analysis_params['ref_dir'] + "/" + "log"
+
 def init_prj(pipeline_params):
     '''initiating project generates directory structure, copies ref to directory, and initiates the analysis_params dictionary
     @param pipeline_params dictionary generated from pipeline params yaml file
@@ -29,7 +31,7 @@ def init_prj(pipeline_params):
     prj_dir = abspath + "/" + pipeline_params['project_id']
     fastq_dir = prj_dir + "/fastq"
     ref_dir = prj_dir + "/ref"
-    subprocess.call(['mkdir','-p', fastq_dir, ref_dir])
+    subprocess.call(['mkdir','-p', fastq_dir, ref_dir + "/log"])
     
     # generating analysis_params dictionary
     analysis_params = defaultdict(str)
@@ -95,13 +97,16 @@ def init_analysis(analysis_name, analysis_params, run_by):
             analysis_params[i][analysis_name + "_log"] = plat_log_dir
     elif run_by == 'miseq_pairs':
         miseq_accessions = analysis_params['miseq']['accessions']
+        pairs = []
         for i in xrange(0, len(miseq_accessions)):
             for j in xrange(i+1, len(miseq_accessions)):
                 pair_name = miseq_accessions[i] + "-" + miseq_accessions[j]
+                pairs.append(pair_name)
                 pair_log_dir = analysis_root + "/log/" + pair_name
                 subprocess.call(['mkdir','-p', pair_log_dir])
                 analysis_params[pair_name] = defaultdict(str)
                 analysis_params[pair_name][analysis_name + "_log"] = pair_log_dir
+        analysis_params[analysis_name]['pairs'] = pairs
 
 def define_map_run(accession, analysis_params, pipeline_params):
     ''' defining parameters, input, and output files for mapping analysis
@@ -119,19 +124,29 @@ def define_map_run(accession, analysis_params, pipeline_params):
         analysis_params[accession]['fastq1'] = fastq_root + ".fastq"
         analysis_params[accession]['fastq2'] = None
     
-    # output file names
     root_name = analysis_params['ref_root'] +"_"+ accession
-    analysis_params[accession]['sam'] = analysis_params['mapping']['tmp_dir'] +"/" + root_name + ".sam"
-    analysis_params[accession]['bam'] = analysis_params['mapping']['tmp_dir'] +"/" + root_name + ".bam"
-    analysis_params[accession]['header_file'] = analysis_params['mapping']['tmp_dir'] +"/" + root_name + "_header.bam"
-    analysis_params[accession]['sorted_bam'] = analysis_params['mapping']['analysis_dir'] +"/" + root_name + ".bam"
+    
+    ## temp files
+    tmp_root = analysis_params['mapping']['tmp_dir'] + "/" + root_name
+    analysis_params[accession]['sam'] = tmp_root + ".sam"
+    analysis_params[accession]['bam'] = tmp_root + ".bam"
+    analysis_params[accession]['header_file'] = tmp_root + "_header.bam"
+    analysis_params[accession]['fix_file'] = tmp_root + "_fix.bam"
+    analysis_params[accession]['group_sort_file'] = tmp_root + "_group_sort.bam"
+    analysis_params[accession]['realign_file'] = tmp_root + "_realign.bam"
+    analysis_params[accession]['intervals_file'] = tmp_root + ".intervals"
+    analysis_params[accession]['metrics_file'] = tmp_root + ".metrics"
+    
+    ## output files
+    output_root = analysis_params['mapping']['analysis_dir'] + "/" + root_name
+    analysis_params[accession]['sorted_bam'] = output_root + "_raw.bam"
+    analysis_params[accession]['markdup_file'] = output_root + "_refined.bam"
     analysis_params[accession]['read_group'] = [(("RGID=%s") % pipeline_params['project_id']),
                                 (("RGLB=%s") % analysis_params[accession]['lib']),
                                 (("RGPL=%s") % analysis_params[accession]['plat']),
                                 (("RGPU=%s") % 'barcoded'),
                                 (("RGSM=%s") % accession),
                                 (("RGCN=%s") % pipeline_params['center'])]
-    # return analysis_params
 
 def define_pilon_run(plat, analysis_params): 
     ''' Define parameters for running pilon 
@@ -157,7 +172,7 @@ def define_qc_run(accession, analysis_params):
     @params plat platform parameters are defined for
     @params analysis_params
     '''
-    root_name = analysis_params['ref_root'] +"_"+ accession
+    root_name = analysis_params['qc_stats']['analysis_dir'] + "/" + analysis_params['ref_root'] +"_"+ accession
     analysis_params[accession]['bam_metrics'] = root_name + "_stats"
 
 def define_consensus_base_run(accession,analysis_params):
@@ -166,18 +181,9 @@ def define_consensus_base_run(accession,analysis_params):
     @param analysis_params 
     '''
     root_name = analysis_params['ref_root'] +"_"+ accession
-    
-    ## temp files
-    tmp_root = analysis_params['consensus_base']['tmp_dir'] + "/" + root_name
-    analysis_params[accession]['fix_file'] = tmp_root + "_fix.bam"
-    analysis_params[accession]['group_sort_file'] = tmp_root + "_group_sort.bam"
-    analysis_params[accession]['realign_file'] = tmp_root + "_realign.bam"
-    analysis_params[accession]['intervals_file'] = tmp_root + ".intervals"
-    analysis_params[accession]['metrics_file'] = tmp_root + ".metrics"
-    
+        
     ## output files
     output_root = analysis_params['consensus_base']['analysis_dir'] + "/" + root_name
-    analysis_params[accession]['markdup_file'] = output_root + "_markdup.bam"
     analysis_params[accession]['consensus_vcf'] = output_root + ".vcf"
 
 def define_homogeneity_run(accession1, accession2 ,analysis_params):
@@ -187,18 +193,18 @@ def define_homogeneity_run(accession1, accession2 ,analysis_params):
     @param analysis_params 
     '''
     
-    pair_names = accession1 + "-" + accession2
-    root_name = analysis_params['ref_root'] +"_"+ accession1 + "_" + accession2
+    pair_name = accession1 + "-" + accession2
+    root_name = analysis_params['ref_root'] +"_"+ accession1 + "-" + accession2
 
     ## input files
-    analysis_params[pair_names]['bam1'] =  analysis_params[accession1]['markdup_file']
-    analysis_params[pair_names]['bam2'] =  analysis_params[accession2]['markdup_file']
+    analysis_params[pair_name]['bam1_file'] =  analysis_params[accession1]['markdup_file']
+    analysis_params[pair_name]['bam2_file'] =  analysis_params[accession2]['markdup_file']
     
     ## temp files
     tmp_root = analysis_params['homogeneity']['tmp_dir'] + "/" + root_name
-    analysis_params[pair_names]['mpileup'] = tmp_root + ".mpileup"
+    analysis_params[pair_name]['mpileup_file'] = tmp_root + ".mpileup"
     
     ## output files
     output_root = analysis_params['homogeneity']['analysis_dir'] + "/" + root_name
-    analysis_params[pair_names]['snp'] = output_root + "_varscan-snp.txt"
-    analysis_params[pair_names]['indel'] = output_root + "_varscan-indel.txt"
+    analysis_params[pair_name]['varscan_snp_file'] = output_root + "_varscan-snp.txt"
+    analysis_params[pair_name]['varscan_indel_file'] = output_root + "_varscan-indel.txt"
