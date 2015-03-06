@@ -7,7 +7,7 @@ from prepc.varscan_commands import *
 
 def main(analysis_params):
     # nested for loops for pairwise comparisons
-    for i in analysis_params['homogeneity']['pairs']:
+    for i in analysis_params['pairs']:
         samtools_mpileup_pairs(in_ref= analysis_params['ref'], 
                                in_bams= [analysis_params[i]['bam1_file'], 
                                             analysis_params[i]['bam2_file']],

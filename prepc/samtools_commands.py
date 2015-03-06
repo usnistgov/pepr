@@ -95,7 +95,7 @@ def samtools_bam_merge(bam_list, out_bam, log_dir):
     log_file.close(); stderr_file.close()
 
 def samtools_mpileup(in_ref, in_bams,out_vcf, log_dir, varscan_pairs = False):
-    ''' Takes a list of bam files and refernece genome then
+    ''' Takes a list of bam files and reference genome then
         performs base level sequence analysis
     '''
     print "Running mpileup ..."

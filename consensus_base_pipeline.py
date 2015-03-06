@@ -5,7 +5,7 @@ import subprocess
 from prepc.samtools_commands import *
 
 def main(analysis_params):
-    for i in ['miseq','pgm']:
+    for i in analysis_params['plat']:
         # whole genome variant calls
         bam_list = [analysis_params[j]['markdup_file'] for j in analysis_params[i]['accessions']]
         samtools_mpileup(in_ref=analysis_params['ref'],

@@ -43,13 +43,14 @@ def init_prj(pipeline_params):
     
     return analysis_params
 
-def accession_params(pipeline_params, analysis_params):
+def init_params(pipeline_params, analysis_params):
     '''generating a list of accession numbers for get_fastq and initiating data set specific run params
     @param pipeline_params dictionary generated from pipeline params yaml file
     @param analysis_params inititing run specific parameters
     '''
     
     analysis_params['accessions'] = []
+    analysis_params['plat'] = pipeline_params['exp_design'].keys()
     for i in pipeline_params['exp_design']:
         analysis_params[i] = defaultdict(str)
         analysis_params[i]['accessions'] = []
@@ -63,6 +64,15 @@ def accession_params(pipeline_params, analysis_params):
             analysis_params[acc]['rep'] = j['rep']
             analysis_params[acc]['plat'] = i
             analysis_params[acc]['lib'] = "%d-%d" % (analysis_params[acc]['vial'], analysis_params[acc]['rep'])
+
+    miseq_accessions = analysis_params['miseq']['accessions']
+    pairs = []
+    for i in xrange(0, len(miseq_accessions)):
+        for j in xrange(i+1, len(miseq_accessions)):
+            pair_name = miseq_accessions[i] + "-" + miseq_accessions[j]
+            pairs.append(pair_name)
+            analysis_params[pair_name] = defaultdict(str)
+    analysis_params['pairs'] = pairs
 
 def init_analysis(analysis_name, analysis_params, run_by):
     '''Adding analyis step general parameters to the analysis params dictionary
@@ -91,22 +101,17 @@ def init_analysis(analysis_name, analysis_params, run_by):
             subprocess.call(['mkdir','-p', acc_log_dir])
             analysis_params[i][analysis_name + "_log"] = acc_log_dir
     elif run_by == 'plat':
-        for i in ['miseq','pgm']: # want to fix later to platfoms are not hard coded
+        for i in analysis_params['plat']:
             plat_log_dir = analysis_root + "/log/" + i
             subprocess.call(['mkdir','-p', plat_log_dir])
             analysis_params[i][analysis_name + "_log"] = plat_log_dir
     elif run_by == 'miseq_pairs':
-        miseq_accessions = analysis_params['miseq']['accessions']
-        pairs = []
-        for i in xrange(0, len(miseq_accessions)):
-            for j in xrange(i+1, len(miseq_accessions)):
-                pair_name = miseq_accessions[i] + "-" + miseq_accessions[j]
-                pairs.append(pair_name)
-                pair_log_dir = analysis_root + "/log/" + pair_name
-                subprocess.call(['mkdir','-p', pair_log_dir])
-                analysis_params[pair_name] = defaultdict(str)
-                analysis_params[pair_name][analysis_name + "_log"] = pair_log_dir
-        analysis_params[analysis_name]['pairs'] = pairs
+        for i in analysis_params['pairs']:
+            pair_log_dir = analysis_root + "/log/" + i
+            analysis_params[i][analysis_name + "_log"] = pair_log_dir
+            subprocess.call(['mkdir','-p', pair_log_dir])
+            
+        # analysis_params[analysis_name]['pairs'] = pairs
 
 def define_map_run(accession, analysis_params, pipeline_params):
     ''' defining parameters, input, and output files for mapping analysis
@@ -176,16 +181,16 @@ def define_qc_run(accession, analysis_params):
     root_name = analysis_params['qc_stats']['analysis_dir'] + "/" + analysis_params['ref_root'] +"_"+ accession
     analysis_params[accession]['bam_metrics'] = root_name + "_stats"
 
-def define_consensus_base_run(accession,analysis_params):
+def define_consensus_base_run(plat,analysis_params):
     ''' defining parameters, input, and output files for consensus base analysis
     @param accession
     @param analysis_params 
     '''
-    root_name = analysis_params['ref_root'] +"_"+ accession
+    root_name = analysis_params['ref_root'] +"_"+ plat
         
     ## output files
     output_root = analysis_params['consensus_base']['analysis_dir'] + "/" + root_name
-    analysis_params[accession]['consensus_vcf'] = output_root + ".vcf"
+    analysis_params[plat]['consensus_vcf'] = output_root + ".vcf"
 
 def define_homogeneity_run(accession1, accession2 ,analysis_params):
     ''' defining parameters, input, and output files for homogeneity analysis
