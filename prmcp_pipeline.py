@@ -21,7 +21,7 @@ def run_genome_eval_pipeline_base(parameters):
 
 	#initiating project
 	analysis_params = init_prj(pipeline_params)
-	accession_params(pipeline_params, analysis_params)
+	init_params(pipeline_params, analysis_params)
 
 	#mapping params
 	init_analysis('mapping', analysis_params, run_by = 'accession')
@@ -51,7 +51,7 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 
 	#initiating project
 	analysis_params = init_prj(pipeline_params)
-	accession_params(pipeline_params, analysis_params)
+	init_params(pipeline_params, analysis_params)
 
 	#mapping params
 	init_analysis('mapping', analysis_params, run_by = 'accession')
@@ -116,12 +116,6 @@ def run_genome_characterization_pipeline(parameters):
 	for i in analysis_params['accessions']:
 		define_qc_run(i, analysis_params)
 
-	print "printing pipeline parameters to file ..."
-	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
-							"_" + pipeline_params['project_id'] + "_charaterization_parameters.yaml"
-	with open(param_out, 'w') as f:
-  		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
-
 	#consensus_base params
 	init_analysis('consensus_base', analysis_params, run_by = 'plat')
 	for i in ['miseq','pgm']:
@@ -130,7 +124,7 @@ def run_genome_characterization_pipeline(parameters):
 	# Still need to work out bug in parameter definitions
 	#homogeneity params
 	init_analysis('homogeneity', analysis_params, run_by = 'miseq_pairs')
-	for i in analysis_params['homogeneity']['pairs']:
+	for i in analysis_params['pairs']:
 		acc1, acc2 = i.split("-")
 		define_homogeneity_run(acc1, acc2, analysis_params)	
 
