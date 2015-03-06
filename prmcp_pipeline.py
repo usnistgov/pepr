@@ -5,7 +5,7 @@ from map_pipeline import main as map_pipeline
 from pilon_pipeline import main as pilon_pipeline 
 from qc_stats_pipeline import main as qc_stats_pipeline 
 from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline 
-# from consensus_base_pipeline import main as consensus_base_pipeline 
+from consensus_base_pipeline import main as consensus_base_pipeline 
 from prepc.define_pipeline_params import *
 
 def run_genome_eval_pipeline_base(parameters):
@@ -124,10 +124,9 @@ def run_genome_characterization_pipeline(parameters):
 	# Still need to work out bug in parameter definitions
 	#homogeneity params
 	init_analysis('homogeneity', analysis_params, run_by = 'miseq_pairs')
-	miseq_accessions = analysis_params['miseq']['accessions']
-	for i in xrange(0, len(miseq_accessions)):
-		for j in xrange(i+1, len(miseq_accessions)):
-			define_homogeneity_run(miseq_accessions[i], miseq_accessions[j], analysis_params)	
+	for i in analysis_params['homogeneity']['pairs']:
+		acc1, acc2 = i.split("-")
+		define_homogeneity_run(acc1, acc2, analysis_params)	
 
 	print "printing pipeline parameters to file ..."
 	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
@@ -138,7 +137,7 @@ def run_genome_characterization_pipeline(parameters):
 
 	print "Running step 1 of 5"
 	index_ref_pipeline(analysis_params)
-
+	
 	print "Running step 2 of 5"
 	map_pipeline(analysis_params, refine = True)
 
@@ -150,4 +149,4 @@ def run_genome_characterization_pipeline(parameters):
 	homogeneity_analysis_pipeline(analysis_params)
 
 	print "Running step 5 of 5"
-	# consensus_base_pipeline(analysis_params)
+	consensus_base_pipeline(analysis_params)
