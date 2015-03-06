@@ -19,7 +19,11 @@ RUN apt-get install -y -q   \
                             libncurses5-dev \
                             libyaml-dev \
                             openjdk-7-jdk \
-                            openjdk-7-jre
+                            openjdk-7-jre \
+                            r-base \
+                            r-base-dev \
+                            r-recommended
+RUN echo 'options(repos = list(CRAN = "http://cran.rstudio.com/"))' >> /etc/R/Rprofile.site
 
 # install bowtie2 
 RUN wget http://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.2.2/bowtie2-2.2.2-linux-x86_64.zip;\
