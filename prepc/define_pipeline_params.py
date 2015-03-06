@@ -132,6 +132,7 @@ def define_map_run(accession, analysis_params, pipeline_params):
     analysis_params[accession]['bam'] = tmp_root + ".bam"
     analysis_params[accession]['header_file'] = tmp_root + "_header.bam"
     analysis_params[accession]['fix_file'] = tmp_root + "_fix.bam"
+    analysis_params[accession]['sort_fix_file'] = tmp_root + "_sort_fix.bam"
     analysis_params[accession]['group_sort_file'] = tmp_root + "_group_sort.bam"
     analysis_params[accession]['realign_file'] = tmp_root + "_realign.bam"
     analysis_params[accession]['intervals_file'] = tmp_root + ".intervals"

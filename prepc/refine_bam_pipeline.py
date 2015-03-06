@@ -12,9 +12,12 @@ def main(accession, ref, accession_params):
         samtools_commands.samtools_bam_fixmate(in_bam = accession_params['group_sort_file'],
             out_bam = accession_params['fix_file'],
             log_dir = accession_params['mapping_log'])
-        samtools_commands.samtools_bam_index(in_bam = accession_params['fix_file'], 
+        samtools_commands.samtools_bam_sort(  in_bam = accession_params['header_file'],
+                                      out_bam = accession_params['sort_fix_file'],
+                                      log_dir=accession_params['mapping_log'])
+        samtools_commands.samtools_bam_index(in_bam = accession_params['sort_fix_file'], 
             log_dir = accession_params['mapping_log'])
-        bam_file = accession_params['fix_file']
+        bam_file = accession_params['sort_fix_file']
     else:
     	bam_file = accession_params['sorted_bam']
 
