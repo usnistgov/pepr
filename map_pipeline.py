@@ -7,8 +7,8 @@ import warnings
 
 def main(analysis_params, refine = False):
 	for i in analysis_params['accessions']:
-		if analysis_params[i]['plat'] not in ['pgm','miseq']:
-			message = "Accession %s not run, only accessions with plat values 'pgm' and 'miseq' are run" % (i)
+		if analysis_params[i]['plat'] not in ['pgm','miseq', 'pacbio']:
+			message = "Accession %s not run, only accessions with plat values 'pgm','miseq'. 'pacbio' are run" % (i)
 			warnings.warn(message)
 		else:
 			print "Mapping %s" % i
@@ -17,12 +17,18 @@ def main(analysis_params, refine = False):
 					in_fq = analysis_params[i]['fastq1'],
 					out_sam = analysis_params[i]['sam'],
 					log_dir = analysis_params[i]['mapping_log'])
-			else:
+			elif analysis_params[i]['plat'] == 'miseq':
 				bwa_map_fq( in_ref = analysis_params['ref'],
 					in_fq1 = analysis_params[i]['fastq1'],
 					in_fq2 = analysis_params[i]['fastq2'],
 					out_sam = analysis_params[i]['sam'],
-					log_dir = analysis_params[i]['mapping_log'])			
+					log_dir = analysis_params[i]['mapping_log'])
+			else analysis_params[i]['plat'] == 'pacbio':
+				bwa_map_fq( in_ref = analysis_params['ref'],
+					in_fq1 = analysis_params[i]['fastq1'],
+					in_fq2 = analysis_params[i]['fastq2'],
+					out_sam = analysis_params[i]['sam'],
+					log_dir = analysis_params[i]['mapping_log'])	
 	        #sorting, indexing and adding header
 	        sam_to_bam(i, analysis_params[i])
 

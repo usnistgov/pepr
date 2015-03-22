@@ -29,7 +29,9 @@ def bwa_map_fq(in_ref, in_fq1, in_fq2, out_sam, log_dir):
     stderr_file = open(log_dir + "/bwa_mem"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
     
     ## run command
-    bwa_mem_command = ["bwa","mem","-t","8", in_ref,in_fq1,in_fq2]
+    bwa_mem_command = ["bwa","mem","-t","8", in_ref,in_fq1]
+    if in_fq2 != None:
+        bwa_mem_command.append(in_fq2)
     subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
     sam_file.close(); stderr_file.close()
 
