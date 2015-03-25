@@ -124,4 +124,17 @@ def samtools_mpileup_pairs(in_ref, in_bams, out_mpileup, log_dir):
     mpileup_command_pairs = ["samtools","mpileup", "-q", "1","-f", in_ref] + in_bams
     subprocess.call(mpileup_command_pairs,stdout=mpileup_file,stderr=stderr_file)
     mpileup_file.close(); stderr_file.close()
+
+def samtools_mpileup_single(in_ref, in_bam, out_mpileup, log_dir):
+    ''' Mpileup for varscan
+    '''
+    print "Running mpileup for pairwise bams ..."
     
+    # prep files
+    mpileup_file = open(out_mpileup,'w')
+    stderr_file = open(log_dir + "/samtools_mpileup_pairs"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
+    
+    # run command
+    mpileup_command_pairs = ["samtools","mpileup", "-q", "1","-f", in_ref, in_bam]
+    subprocess.call(mpileup_command_pairs,stdout=mpileup_file,stderr=stderr_file)
+    mpileup_file.close(); stderr_file.close()
