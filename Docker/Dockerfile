@@ -40,41 +40,51 @@ RUN wget http://downloads.sourceforge.net/project/picard/picard-tools/1.111/pica
 RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.1/samtools-1.1.tar.bz2;\
     tar -xaf samtools-1.1.tar.bz2 && rm -rf samtools-1.1.tar.bz2 ;\
     cd samtools-1.1;\
-    make && ln -f -s `pwd`/* /usr/bin && cd ../
+    make && ln -f -s `pwd`/* /usr/local/bin/ && cd ../
 
 RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.1/bcftools-1.1.tar.bz2;\
     tar -xaf bcftools-1.1.tar.bz2 && rm -rf bcftools-1.1.tar.bz2 ;\
     cd bcftools-1.1;\
-    make && ln -f -s `pwd`/bcftools /usr/bin && cd ../
+    make && ln -f -s `pwd`/bcftools /usr/local/bin/ && cd ../
 
 # install Pilon
 RUN wget https://github.com/broadinstitute/pilon/releases/download/v1.10/pilon-1.10.jar;\
-    chmod +x pilon-1.10.jar; \
-    ln -s `pwd`/pilon-1.10.jar /usr/local/bin/
+    chmod +x pilon-1.11.jar; \
+    ln -s `pwd`/pilon-1.10.jar /usr/local/bin/pilon.jar
 
 # install TMAP
 RUN git clone git://github.com/iontorrent/TMAP.git; \
 	cd TMAP; \
 	git submodule init && git submodule update; \
 	sh autogen.sh && ./configure && make; \
-	make install && ln -f -s `pwd`/tmap /usr/bin && cd ../
+	make install && ln -f -s `pwd`/tmap /usr/local/bin/ && cd ../
 
 # install sratoolkit
 RUN wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.4.5/sratoolkit.2.4.5-ubuntu64.tar.gz &&\
         tar -xf sratoolkit.2.4.5-ubuntu64.tar.gz &&\
         rm -rf sratoolkit.2.4.5-ubuntu64.tar.gz;\
-        ln -f -s `pwd`/sratoolkit.2.4.5-ubuntu64/bin/* /usr/bin/
+        ln -f -s `pwd`/sratoolkit.2.4.5-ubuntu64/bin/* /usr/local/bin/
 
 # install fastqc
 RUN wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip;\
     unzip fastqc_v0.11.2.zip && cd FastQC;\
     chmod +x fastqc;\
-    ln -sf `pwd`/fastqc /usr/bin/ && cd ../
+    ln -sf `pwd`/fastqc /usr/local/bin/ && cd ../
 
 # install varscan
 RUN wget http://sourceforge.net/projects/varscan/files/VarScan.v2.3.7.jar;\
     chmod +x VarScan.v2.3.7.jar; \
-    ln -s `pwd`/VarScan.v2.3.7.jar /usr/local/bin/
+    ln -s `pwd`/VarScan.v2.3.7.jar /usr/local/bin/ && cd ../
+
+# install vcflib
+RUN git clone --recursive https://github.com/ekg/vcflib.git; \
+    cd vcflib; \
+    make && ln -f -s `pwd`/bin/* /usr/local/bin/ && cd ../
+
+# install bamstat
+RUN wget http://sourceforge.net/projects/bamstats/files/BAMStats-1.25.zip;\
+    unzip BAMStats-1.25.zip ;\
+    ln -f -s `pwd`/BAMStats-1.25/BAMStats-1.25.jar /usr/local/bin/BAMStats-1.25.jar && cd ../
 
 # installing cement
 RUN pip install cement
