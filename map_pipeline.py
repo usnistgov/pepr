@@ -23,7 +23,7 @@ def main(analysis_params, refine = False):
 					in_fq2 = analysis_params[i]['fastq2'],
 					out_sam = analysis_params[i]['sam'],
 					log_dir = analysis_params[i]['mapping_log'])
-			else analysis_params[i]['plat'] == 'pacbio':
+			elif analysis_params[i]['plat'] == 'pacbio':
 				bwa_map_fq( in_ref = analysis_params['ref'],
 					in_fq1 = analysis_params[i]['fastq1'],
 					in_fq2 = analysis_params[i]['fastq2'],

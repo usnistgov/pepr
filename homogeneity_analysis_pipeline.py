@@ -7,13 +7,14 @@ from prepc.varscan_commands import *
 
 def main(analysis_params):
     # nested for loops for pairwise comparisons
-    for i in analysis_params['pairs']:
+    for i in analysis_params['miseq']['accessions']:
         samtools_mpileup_pairs(in_ref= analysis_params['ref'], 
-                               in_bams= [analysis_params[i]['bam1_file'], 
-                                            analysis_params[i]['bam2_file']],
+                               in_bam= analysis_params[i]['markdup_file'],
                                out_mpileup=analysis_params[i]['mpileup_file'], 
                                log_dir=analysis_params[i]['homogeneity_log'])
-        varscan_somatic(in_mpileup=analysis_params[i]['mpileup_file'], 
+    for i in analysis_params['pairs']:
+        varscan_somatic(in_mpileup1=analysis_params[i]['mpileup1_file'], 
+                        in_mpileup2=analysis_params[i]['mpileup2_file'], 
                         snp_out=analysis_params[i]['varscan_snp_file'], 
                         indel_out=analysis_params[i]['varscan_indel_file'], 
                         log_dir=analysis_params[i]['homogeneity_log'])            
