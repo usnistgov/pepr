@@ -3,8 +3,8 @@ import time
 import subprocess
 
 def vcflib_vcf2tsv(in_vcf, out_tsv, log_dir):
-    ''' Summary statistics for fastq file'''
-    print "Generating summary statistics ...."
+    ''' Converting vcf to tsv'''
+    print "Converting vcf to tsv ...."
 
     ## log files for standard out and error
     tsv_file = open(out_tsv,'w')
