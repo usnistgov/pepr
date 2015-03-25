@@ -191,6 +191,7 @@ def define_consensus_base_run(plat,analysis_params):
     ## output files
     output_root = analysis_params['consensus_base']['analysis_dir'] + "/" + root_name
     analysis_params[plat]['consensus_vcf'] = output_root + ".vcf"
+    analysis_params[plat]['consensus_tsv'] = output_root + ".tsv"
 
 def define_homogeneity_run(accession1, accession2 ,analysis_params):
     ''' defining parameters, input, and output files for homogeneity analysis
@@ -207,8 +208,9 @@ def define_homogeneity_run(accession1, accession2 ,analysis_params):
     analysis_params[pair_name]['bam2_file'] =  analysis_params[accession2]['markdup_file']
     
     ## temp files
-    tmp_root = analysis_params['homogeneity']['tmp_dir'] + "/" + root_name
-    analysis_params[pair_name]['mpileup_file'] = tmp_root + ".mpileup"
+    tmp_root = analysis_params['homogeneity']['tmp_dir'] + "/"
+    analysis_params[accession1]['mpileup_file'] = tmp_root + accession1 +".mpileup"
+    analysis_params[accession2]['mpileup_file'] = tmp_root + accession2 +".mpileup"
     
     ## output files
     output_root = analysis_params['homogeneity']['analysis_dir'] + "/" + root_name
