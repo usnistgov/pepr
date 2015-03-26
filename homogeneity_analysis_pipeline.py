@@ -8,7 +8,7 @@ from prepc.varscan_commands import *
 def main(analysis_params):
     # nested for loops for pairwise comparisons
     for i in analysis_params['miseq']['accessions']:
-        samtools_mpileup_pairs(in_ref= analysis_params['ref'], 
+        samtools_mpileup_single(in_ref= analysis_params['ref'], 
                                in_bam= analysis_params[i]['markdup_file'],
                                out_mpileup=analysis_params[i]['mpileup_file'], 
                                log_dir=analysis_params[i]['homogeneity_log'])
