@@ -1,0 +1,22 @@
+## peprs parameters for RM8375
+---
+project_id: MG001
+center: NIST
+RM: RM8375
+ref: /pepr-data/CFSAN008157.HGAP.fasta
+exp_design:
+  pacbio:
+    - accession: SRR1425899 
+      plat: pacbio
+      vial: 9
+      rep: 1
+  miseq:
+    - accession: SRR1555296
+      plat: miseq
+      vial: 0
+      rep: 1
+  pgm:
+    - accession: SRR1393710
+      plat: pgm
+      vial: 0
+      rep: 1
