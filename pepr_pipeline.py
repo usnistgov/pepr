@@ -74,18 +74,18 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 		print "skipping fastq download"
 	else:
 		print "downloading fastq"
-		get_fastq_pipeline(analysis_params)
+		# get_fastq_pipeline(analysis_params)
 
 
 	print "Running step 2 of 4"
-	index_ref_pipeline(analysis_params)
+	# index_ref_pipeline(analysis_params)
 
 
 	print "Running step 3 of 4"
-	map_pipeline(analysis_params)
+	# map_pipeline(analysis_params)
 
 	print "Running step 4 of 4"
-	pilon_pipeline(analysis_params)
+	# pilon_pipeline(analysis_params)
 
 	
 
@@ -136,17 +136,17 @@ def run_genome_characterization_pipeline(parameters):
 
 
 	print "Running step 1 of 5"
-	index_ref_pipeline(analysis_params)
+	# index_ref_pipeline(analysis_params)
 
 	print "Running step 2 of 5"
-	map_pipeline(analysis_params, refine = True)
+	# map_pipeline(analysis_params, refine = True)
 
 
 	print "Running step 3 of 5"
-	qc_stats_pipeline(analysis_params)
+	# qc_stats_pipeline(analysis_params)
 
 	print "Running step 4 of 5"
-	homogeneity_analysis_pipeline(analysis_params)
+	# consensus_base_pipeline(analysis_params)
 
 	print "Running step 5 of 5"
-	consensus_base_pipeline(analysis_params)
+	homogeneity_analysis_pipeline(analysis_params)
