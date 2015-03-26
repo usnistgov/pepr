@@ -73,7 +73,7 @@ try:
     app.setup()
 
     # add arguments to the parser
-    app.args.add_argument('-c', '--config', action='store', metavar='STR',
+    app.args.add_argument('-C', '--config', action='store', metavar='STR',
                           help='yaml pipeline parameters file')
     app.args.add_argument('-p', '--pipe', action='store', metavar='STR',
                           help='define which pipeline to run')

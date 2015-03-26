@@ -59,8 +59,8 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 		define_map_run(i, analysis_params, pipeline_params)
 
 	#pilon params
-	init_analysis('pilon', analysis_params, run_by = 'plat')
-	define_pilon_run('miseq', analysis_params)
+	# init_analysis('pilon', analysis_params, run_by = 'plat')
+	# define_pilon_run('miseq', analysis_params)
 
 	print "printing pipeline parameters to file ..."
 	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
