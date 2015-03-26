@@ -211,6 +211,8 @@ def define_homogeneity_run(accession1, accession2 ,analysis_params):
     tmp_root = analysis_params['homogeneity']['tmp_dir'] + "/"
     analysis_params[accession1]['mpileup_file'] = tmp_root + accession1 +".mpileup"
     analysis_params[accession2]['mpileup_file'] = tmp_root + accession2 +".mpileup"
+    analysis_params[pair_name]['mpileup_file1'] = analysis_params[accession1]['mpileup_file']
+    analysis_params[pair_name]['mpileup_file2'] = analysis_params[accession2]['mpileup_file']
     
     ## output files
     output_root = analysis_params['homogeneity']['analysis_dir'] + "/" + root_name
