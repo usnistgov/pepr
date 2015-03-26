@@ -35,3 +35,15 @@ def bwa_map_fq(in_ref, in_fq1, in_fq2, out_sam, log_dir):
     subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
     sam_file.close(); stderr_file.close()
 
+def bwa_map_pacbio(in_ref, in_fq1, in_fq2, out_sam, log_dir):
+    ''' Mapping paired-end reads to reference'''
+    print "Mapping paired-end reads to reference"
+    
+    ## log files for standard out and error
+    sam_file = open(out_sam,'w')
+    stderr_file = open(log_dir + "/bwa_mem"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
+    
+    ## run command
+    bwa_mem_command = ["bwa","mem","-x", "pacbio", "-t","8", in_ref,in_fq1]
+    subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
+    sam_file.close(); stderr_file.close()
