@@ -12,7 +12,7 @@ RUN apt-get install -y -q   \
                             #pkg-config \
                             curl \
                             wget \
-                            bwa \
+                            #bwa \
                             unzip \
                             #zlib1g-dev \
                             libbz2-dev \
