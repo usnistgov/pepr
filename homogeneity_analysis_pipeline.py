@@ -6,11 +6,11 @@ from prepc.samtools_commands import *
 from prepc.varscan_commands import *
 
 def main(analysis_params):
-    # for i in analysis_params['miseq']['accessions']:
-    #     samtools_mpileup_single(in_ref= analysis_params['ref'], 
-    #                            in_bam= analysis_params[i]['markdup_file'],
-    #                            out_mpileup=analysis_params[i]['mpileup_file'], 
-    #                            log_dir=analysis_params[i]['homogeneity_log'])
+    for i in analysis_params['miseq']['accessions']:
+        samtools_mpileup_single(in_ref= analysis_params['ref'], 
+                               in_bam= analysis_params[i]['markdup_file'],
+                               out_mpileup=analysis_params[i]['mpileup_file'], 
+                               log_dir=analysis_params[i]['homogeneity_log'])
     for i in analysis_params['pairs']:
         varscan_somatic(in_mpileup1=analysis_params[i]['mpileup_file1'], 
                         in_mpileup2=analysis_params[i]['mpileup_file2'], 
