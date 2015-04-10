@@ -6,37 +6,8 @@ from pilon_pipeline import main as pilon_pipeline
 from qc_stats_pipeline import main as qc_stats_pipeline 
 from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline 
 from consensus_base_pipeline import main as consensus_base_pipeline 
+from genomic_purity_pipeline import main as genomic_purity_pipeline 
 from prepc.define_pipeline_params import *
-
-def run_genome_eval_pipeline_base(parameters):
-	''' Full genome evaluation pipeline takes an input parameter file and;
-	1. retrieves fastq files from SRA archive for provided Genbank accessions
-	2. indexes user provided reference genome sequence
-	3. maps miseq reads to user provided reference genome 
-	4. evaluates reference genome using pilon_pipeline with miseq data
-	'''
-	print "defining run parameters"
-	param_file = file(parameters, 'r')
-	pipeline_params = yaml.load(param_file)
-
-	#initiating project
-	analysis_params = init_prj(pipeline_params)
-	init_params(pipeline_params, analysis_params)
-
-	#mapping params
-	init_analysis('mapping', analysis_params, run_by = 'accession')
-	for i in analysis_params['accessions']:
-		define_map_run(i, analysis_params, pipeline_params)
-
-	#pilon params
-	init_analysis('pilon', analysis_params, run_by = 'plat')
-	define_pilon_run('miseq', analysis_params)
-
-	print "printing pipeline parameters to file ..."
-	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
-							"_" + pipeline_params['project_id'] + "_evaluation_parameters.yaml"
-	with open(param_out, 'w') as f:
-  		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
 def run_genome_eval_pipeline(parameters, pipe = "full"):
 	''' Full genome evaluation pipeline takes an input parameter file and;
@@ -118,7 +89,7 @@ def run_genome_characterization_pipeline(parameters):
 
 	#consensus_base params
 	init_analysis('consensus_base', analysis_params, run_by = 'plat')
-	for i in ['miseq','pgm']:
+	for i in analysis_params['plat']:
 		define_consensus_base_run(i, analysis_params)
 
 	# Still need to work out bug in parameter definitions
@@ -150,3 +121,31 @@ def run_genome_characterization_pipeline(parameters):
 
 	print "Running step 5 of 5"
 	homogeneity_analysis_pipeline(analysis_params)
+
+def run_genomic_purity_pipeline(parameters):
+	''' Genomic purity pipeline;
+	1. runs pathoqc on input files
+	2. maps reads to reference DB
+	3. runs pathoid on mapped reads
+	'''
+	print "defining run parameters"
+	param_file = file(parameters, 'r')
+	pipeline_params = yaml.load(param_file)
+
+	#initiating project
+	analysis_params = init_prj(pipeline_params, move_ref = False)
+	init_params(pipeline_params, analysis_params)
+
+	#pathoscope parmas
+	init_analysis('genomic_purity', analysis_params, run_by = 'accession')
+	for i in analysis_params['accessions']:
+		define_pathoscope_run(i, analysis_params)
+
+	print "printing pipeline parameters to file ..."
+	param_out = analysis_params['prj_dir'] + "/" + analysis_params['ref_root'] + \
+							"_" + pipeline_params['project_id'] + "_genomic_purity_parameters.yaml"
+	with open(param_out, 'w') as f:
+  		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
+
+  	print "Running genomic purity pipeline"
+  	genomic_purity_pipeline(analysis_params)

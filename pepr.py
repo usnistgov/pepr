@@ -30,6 +30,8 @@ class MyAppBaseController(controller.CementBaseController):
                     run_genome_eval_pipeline(self.app.pargs.config, pipe = "skip_get_fastq")
                 elif "%s" % self.app.pargs.pipe == "characterization":
                     run_genome_characterization_pipeline(self.app.pargs.config)
+                elif "%s" % self.app.pargs.pipe == "genomic_purity":
+                    run_genomic_purity_pipeline(self.app.pargs.config)
                 else:
                     self.app.log.info("Define which pipeline to run using -p")
             else:
