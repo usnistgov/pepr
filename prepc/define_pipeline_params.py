@@ -247,7 +247,7 @@ def define_pathoscope_run(accession,analysis_params):
 
     ## output files
     analysis_params[accession]['pathoscope_run_id'] = analysis_params['ref_root'] +"_"+ accession
-    analysis_params[accession]['pathomap_sam'] = tmp_root + analysis_params[accession]['pathoscope_run_id'] + "-appendAlign.sam"
+    analysis_params[accession]['pathomap_sam'] = tmp_root + "/" + accession  +"/" + analysis_params[accession]['pathoscope_run_id'] + "-appendAlign.sam"
   
 
     # root_name =  root_dir + "/" + accession 
