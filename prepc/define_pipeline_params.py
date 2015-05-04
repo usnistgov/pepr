@@ -69,6 +69,8 @@ def init_params(pipeline_params, analysis_params):
             analysis_params[acc]['rep'] = j['rep']
             analysis_params[acc]['plat'] = i
             analysis_params[acc]['lib'] = "%d-%d" % (analysis_params[acc]['vial'], analysis_params[acc]['rep'])
+    if "miseq" not in analysis_params['plat']:
+        return analysis_params
 
     miseq_accessions = analysis_params['miseq']['accessions']
     pairs = []
