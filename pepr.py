@@ -1,11 +1,11 @@
 from cement.core import backend, foundation, controller, handler
-from prmcp_pipeline import *
+from pepr_pipeline import *
 
 # define an application base controller
 class MyAppBaseController(controller.CementBaseController):
     class Meta:
         label = 'base'
-        description = "My Application does amazing things!"
+        description = "Pipeline for evaluating Prokaryotic References, bioinformatic pipeline that uses sequencing data from replicate runs on multiple platforms to characterize the quality of the reference genome sequence"
 
         # config_defaults = dict(
         #     foo='bar',
@@ -13,10 +13,9 @@ class MyAppBaseController(controller.CementBaseController):
         #     )
 
         # arguments = [
-        #     (['-L', '--Lpipeline'], dict(dest='blank', action='store', help='defining pipeline to run')),
-        #     (['-C'], dict(action='store_true', help='the big C option'))
+        #     (['-p', '--pipe'], dict(action='store_true', help='defining pipeline to run')),
+        #     (['-c', --config], dict(action='store_true', help='yaml config file with dataset accesstions and metadata'))
         #     ]
-        # need to workout defining pipeline to run ...
     @controller.expose(hide=True, aliases=['run'])
     def default(self):
         if self.app.pargs.config:
@@ -31,10 +30,12 @@ class MyAppBaseController(controller.CementBaseController):
                     run_genome_eval_pipeline(self.app.pargs.config, pipe = "skip_get_fastq")
                 elif "%s" % self.app.pargs.pipe == "characterization":
                     run_genome_characterization_pipeline(self.app.pargs.config)
+                elif "%s" % self.app.pargs.pipe == "genomic_purity":
+                    run_genomic_purity_pipeline(self.app.pargs.config)
                 else:
-                    self.app.log.info("Define which pipeline to run using -P")
+                    self.app.log.info("Define which pipeline to run using -p")
             else:
-                self.app.log.info("Define which pipeline to run using -P")     
+                self.app.log.info("Define which pipeline to run using -p")     
         else:
             self.app.log.info("Pipeline requires config file identified with -c")
             
@@ -76,7 +77,7 @@ try:
     # add arguments to the parser
     app.args.add_argument('-c', '--config', action='store', metavar='STR',
                           help='yaml pipeline parameters file')
-    app.args.add_argument('-P', '--pipe', action='store', metavar='STR',
+    app.args.add_argument('-p', '--pipe', action='store', metavar='STR',
                           help='define which pipeline to run')
 
     # run the application

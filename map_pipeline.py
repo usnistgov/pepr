@@ -24,7 +24,7 @@ def main(analysis_params, refine = False):
 					out_sam = analysis_params[i]['sam'],
 					log_dir = analysis_params[i]['mapping_log'])
 			elif analysis_params[i]['plat'] == 'pacbio':
-				bwa_map_fq( in_ref = analysis_params['ref'],
+				bwa_map_pacbio( in_ref = analysis_params['ref'],
 					in_fq1 = analysis_params[i]['fastq1'],
 					in_fq2 = analysis_params[i]['fastq2'],
 					out_sam = analysis_params[i]['sam'],
@@ -34,5 +34,9 @@ def main(analysis_params, refine = False):
 
 	        #fix pairs, markdup, realignment around indels
 	        if refine:
-		        refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
+	        	# if analysis_params[i]['plat'] == 'pacbio':
+       			# 	analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
+		        # else:
+			    	# refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
+			    refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
 

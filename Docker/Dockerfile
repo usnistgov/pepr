@@ -12,7 +12,7 @@ RUN apt-get install -y -q   \
                             #pkg-config \
                             curl \
                             wget \
-                            bwa \
+                            #bwa \
                             unzip \
                             #zlib1g-dev \
                             libbz2-dev \
@@ -51,6 +51,11 @@ RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.1/bcftools-1.
 RUN wget https://github.com/broadinstitute/pilon/releases/download/v1.10/pilon-1.10.jar;\
     chmod +x pilon-1.11.jar; \
     ln -s `pwd`/pilon-1.10.jar /usr/local/bin/pilon.jar
+
+# install bwa using github
+RUN git clone git://github.com/lh3/bwa.git; \
+    cd bwa; \
+    make && ln -f -s `pwd`/bwa /usr/local/bin/ && cd ../
 
 # install TMAP
 RUN git clone git://github.com/iontorrent/TMAP.git; \
