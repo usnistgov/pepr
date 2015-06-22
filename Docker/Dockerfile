@@ -1,5 +1,5 @@
-FROM ipython/ipython
-
+#FROM ipython/ipython
+FROM jupyter/notebook
 #MAINTAINER IPython Project <ipython-dev@scipy.org>
 MAINTAINER Nate Olson <nolson@nist.gov>
 #modified ipython/notebook
