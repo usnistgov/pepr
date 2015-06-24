@@ -26,9 +26,9 @@ RUN apt-get install -y -q   \
 RUN echo 'options(repos = list(CRAN = "http://cran.rstudio.com/"))' >> /etc/R/Rprofile.site
 
 # install bowtie2 
-RUN wget http://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.2.2/bowtie2-2.2.2-linux-x86_64.zip;\
-    unzip bowtie2-2.2.2-linux-x86_64.zip && rm -rf bowtie2-2.2.2-linux-x86_64.zip;\
-    ln -s `pwd`/bowtie*/bowtie* /usr/local/bin
+# RUN wget http://downloads.sourceforge.net/project/bowtie-bio/bowtie2/2.2.2/bowtie2-2.2.2-linux-x86_64.zip;\
+#     unzip bowtie2-2.2.2-linux-x86_64.zip && rm -rf bowtie2-2.2.2-linux-x86_64.zip;\
+#     ln -s `pwd`/bowtie*/bowtie* /usr/local/bin
 
 # install picard
 # this also sets the jars as 'executable' and puts them in the path so they can be found with the 'which ' command - not working correctly
@@ -37,14 +37,14 @@ RUN wget http://downloads.sourceforge.net/project/picard/picard-tools/1.111/pica
     chmod +x picard*/*.jar && ln -s `pwd`/picard*/*.jar /usr/local/bin/
 
 # install htslib samtools and bcftools
-RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.1/samtools-1.1.tar.bz2;\
-    tar -xaf samtools-1.1.tar.bz2 && rm -rf samtools-1.1.tar.bz2 ;\
-    cd samtools-1.1;\
+RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.2/samtools-1.2.tar.bz2;\
+    tar -xaf samtools-1.2.tar.bz2 && rm -rf samtools-1.2.tar.bz2 ;\
+    cd samtools-1.2;\
     make && ln -f -s `pwd`/* /usr/local/bin/ && cd ../
 
-RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.1/bcftools-1.1.tar.bz2;\
-    tar -xaf bcftools-1.1.tar.bz2 && rm -rf bcftools-1.1.tar.bz2 ;\
-    cd bcftools-1.1;\
+RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.2/bcftools-1.2.tar.bz2;\
+    tar -xaf bcftools-1.2.tar.bz2 && rm -rf bcftools-1.2.tar.bz2 ;\
+    cd bcftools-1.2;\
     make && ln -f -s `pwd`/bcftools /usr/local/bin/ && cd ../
 
 # install Pilon
@@ -87,9 +87,9 @@ RUN git clone --recursive https://github.com/ekg/vcflib.git; \
     make && ln -f -s `pwd`/bin/* /usr/local/bin/ && cd ../
 
 # install bamstat
-RUN wget http://sourceforge.net/projects/bamstats/files/BAMStats-1.25.zip;\
-    unzip BAMStats-1.25.zip ;\
-    ln -f -s `pwd`/BAMStats-1.25/BAMStats-1.25.jar /usr/local/bin/BAMStats-1.25.jar && cd ../
+# RUN wget http://sourceforge.net/projects/bamstats/files/BAMStats-1.25.zip;\
+#     unzip BAMStats-1.25.zip ;\
+#     ln -f -s `pwd`/BAMStats-1.25/BAMStats-1.25.jar /usr/local/bin/BAMStats-1.25.jar && cd ../
 
 # installing cement
 RUN pip install cement
