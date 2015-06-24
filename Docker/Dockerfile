@@ -48,9 +48,9 @@ RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.1/bcftools-1.
     make && ln -f -s `pwd`/bcftools /usr/local/bin/ && cd ../
 
 # install Pilon
-RUN wget https://github.com/broadinstitute/pilon/releases/download/v1.10/pilon-1.10.jar;\
-    chmod +x pilon-1.11.jar; \
-    ln -s `pwd`/pilon-1.10.jar /usr/local/bin/pilon.jar
+RUN wget https://github.com/broadinstitute/pilon/releases/download/v1.12/pilon-1.12.jar;\
+    chmod +x pilon-1.12.jar; \
+    ln -s `pwd`/pilon-1.12.jar /usr/local/bin/pilon.jar
 
 # install bwa using github
 RUN git clone git://github.com/lh3/bwa.git; \
