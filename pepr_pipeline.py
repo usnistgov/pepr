@@ -48,6 +48,7 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 	else:
 		print "downloading fastq"
 		get_fastq_pipeline(analysis_params)
+		return 
 
 
 	print "Running step 2 of 4"
