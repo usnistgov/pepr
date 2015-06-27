@@ -10,6 +10,8 @@ def main(analysis_params, refine = False):
 		if analysis_params[i]['plat'] not in ['pgm','miseq', 'pacbio']:
 			message = "Accession %s not run, only accessions with plat values 'pgm','miseq'. 'pacbio' are run" % (i)
 			warnings.warn(message)
+		else if not os.path.isfile(analysis_params[accession]['sorted_bam']) :
+			print "Raw bam present skip mapping"
 		else:
 			print "Mapping %s" % i
 			if analysis_params[i]['plat'] == 'pgm':
@@ -33,10 +35,11 @@ def main(analysis_params, refine = False):
 	        sam_to_bam(i, analysis_params[i])
 
 	        #fix pairs, markdup, realignment around indels
-	        if refine:
-	        	# if analysis_params[i]['plat'] == 'pacbio':
-       			# 	analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
-		        # else:
-			    	# refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
-			    refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
+        if refine:
+	        if os.path.isfile(analysis_params[accession]['markdup_file']):
+	        	print "Refine bam present skip refine mapping"
+	        else if analysis_params[i]['plat'] == 'pacbio':
+   					analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
+	    	else:
+		    	refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
 
