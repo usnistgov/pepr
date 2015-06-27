@@ -170,10 +170,10 @@ def define_pilon_run(plat, analysis_params):
     # list of input bams to merge
     # this is analysis_params[plat]
     
-    if plat == "pgm":
-        analysis_params[plat]['pilon_input_type'] = "--unpaired"
-    else:
+    if plat == "miseq":
         analysis_params[plat]['pilon_input_type'] = "--frags"
+    else:
+        analysis_params[plat]['pilon_input_type'] = "--unpaired"
 
     root_name = analysis_params['ref_root'] + "_" + plat
     analysis_params[plat]['pilon_bam_list'] = analysis_params['pilon']['tmp_dir'] + "/" + root_name + "_bam_list.txt"
