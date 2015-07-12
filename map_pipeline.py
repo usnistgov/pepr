@@ -11,8 +11,8 @@ def main(analysis_params, refine = False):
 		if analysis_params[i]['plat'] not in ['pgm','miseq', 'pacbio']:
 			message = "Accession %s not run, only accessions with plat values 'pgm','miseq'. 'pacbio' are run" % (i)
 			warnings.warn(message)
-		elif os.path.isfile(analysis_params[accession]['sorted_bam']) :
-			print "Raw bam present skip mapping"
+		#elif os.path.isfile(analysis_params[accession]['sorted_bam']) :
+		#	print "Raw bam present skip mapping"
 		else:
 			print "Mapping %s" % i
 			if analysis_params[i]['plat'] == 'pgm':
