@@ -153,7 +153,10 @@ def define_map_run(accession, analysis_params, pipeline_params):
     ## output files
     output_root = analysis_params['mapping']['analysis_dir'] + "/" + root_name
     analysis_params[accession]['sorted_bam'] = output_root + "_raw.bam"
-    analysis_params[accession]['markdup_file'] = output_root + "_refined.bam"
+    if analysis_params[accession]['plat'] == "pacbio":
+        analysis_params[accession]['markdup_file'] = output_root + "_raw.bam"
+    else:
+        analysis_params[accession]['markdup_file'] = output_root + "_refined.bam"
     analysis_params[accession]['read_group'] = [(("RGID=%s") % pipeline_params['project_id']),
                                 (("RGLB=%s") % analysis_params[accession]['lib']),
                                 (("RGPL=%s") % analysis_params[accession]['plat']),
