@@ -65,7 +65,7 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 
 	
 
-def run_genome_characterization_pipeline(parameters):
+def run_genome_characterization_pipeline(parameters, pipe = "full"):
 	''' Full prmcp miseq pipeline takes an input parameter file and;
 	1. indexes reference
 	2. maps all reads to reference
@@ -119,13 +119,20 @@ def run_genome_characterization_pipeline(parameters):
 
 
 	print "Running step 3 of 5"
-	qc_stats_pipeline(analysis_params)
-
+	if pipe != "consensus":
+		qc_stats_pipeline(analysis_params)
+	else:
+		print "skipping qc stats"
+	
 	print "Running step 4 of 5"
 	consensus_base_pipeline(analysis_params)
 
 	print "Running step 5 of 5"
-	homogeneity_analysis_pipeline(analysis_params)
+	if pipe != "consensus":
+		homogeneity_analysis_pipeline(analysis_params)
+	else:
+		print "skipping homogeneity analysis"
+	
 
 def run_genomic_purity_pipeline(parameters):
 	''' Genomic purity pipeline;
