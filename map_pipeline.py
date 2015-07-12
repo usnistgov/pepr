@@ -5,6 +5,7 @@ from prepc.sam_to_bam_pipeline import *
 from prepc.refine_bam_pipeline import main as refine_bam_pipeline
 import warnings
 import os
+import subprocess
 
 def main(analysis_params, refine = False):
 	for i in analysis_params['accessions']:
@@ -35,12 +36,13 @@ def main(analysis_params, refine = False):
 	        	#sorting, indexing and adding header
 	        	sam_to_bam(i, analysis_params[i])
 
-	        	#fix pairs, markdup, realignment around indels
-        		if refine:
-	       			if os.path.isfile(analysis_params[i]['markdup_file']):
-	       				print "Refine bam present skip refine mapping"
-				elif analysis_params[i]['plat'] == 'pacbio':
-   					analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
-   				else:
-		    			refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
+	        #fix pairs, markdup, realignment around indels
+        	if refine:
+	       		if os.path.isfile(analysis_params[i]['markdup_file']):
+	      			print "Refine bam present skip refine mapping"
+			elif analysis_params[i]['plat'] == 'pacbio':
+   				subprocess.call(["cp",accession_params[i]['sorted_bam'], 
+   						analysis_params[i]['markdup_file']])
+   			else:
+		    		refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
 
