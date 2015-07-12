@@ -32,15 +32,15 @@ def main(analysis_params, refine = False):
 					in_fq2 = analysis_params[i]['fastq2'],
 					out_sam = analysis_params[i]['sam'],
 					log_dir = analysis_params[i]['mapping_log'])	
-	        #sorting, indexing and adding header
-	        sam_to_bam(i, analysis_params[i])
+	        	#sorting, indexing and adding header
+	        	sam_to_bam(i, analysis_params[i])
 
-	        #fix pairs, markdup, realignment around indels
+	        	#fix pairs, markdup, realignment around indels
         	if refine:
-	        	if os.path.isfile(analysis_params[accession]['markdup_file']):
-	        		print "Refine bam present skip refine mapping"
-			#elif analysis_params[i]['plat'] == 'pacbio':
-   			#	analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
-	    		else:
+	       		if os.path.isfile(analysis_params[i]['markdup_file']):
+	       			print "Refine bam present skip refine mapping"
+			elif analysis_params[i]['plat'] == 'pacbio':
+   				analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
+   			else:
 		    		refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
 
