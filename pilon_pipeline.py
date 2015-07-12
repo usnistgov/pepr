@@ -27,5 +27,5 @@ def main(plat, analysis_params):
                        log_dir=analysis_params[plat]['pilon_log'])
     
     pilon_fixassembly(in_ref=analysis_params['ref'],in_bam=analysis_params[plat]['pilon_merged_bam'],\
-                     out_root=analysis_params[plat]['pilon_root'],log_dir=analysis_params[plat]['log_dir'],\
+                     out_root=analysis_params[plat]['pilon_root'],log_dir=analysis_params[plat]['pilon_log'],\
                      input_type=analysis_params[plat]['pilon_input_type'])
