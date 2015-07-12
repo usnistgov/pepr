@@ -39,8 +39,8 @@ def main(analysis_params, refine = False):
         	if refine:
 	        	if os.path.isfile(analysis_params[accession]['markdup_file']):
 	        		print "Refine bam present skip refine mapping"
-			elif analysis_params[i]['plat'] == 'pacbio':
-   				analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
+			#elif analysis_params[i]['plat'] == 'pacbio':
+   			#	analysis_params[i]['markdup_file'] = accession_params[i]['sorted_bam']
 	    		else:
 		    		refine_bam_pipeline(i, analysis_params['ref'], analysis_params[i])
 
