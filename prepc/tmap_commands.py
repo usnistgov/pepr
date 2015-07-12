@@ -25,6 +25,6 @@ def tmap_map_fq(in_ref, in_fq, out_sam, log_dir):
     stderr_file = open(log_dir + "/tmap_map"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
     
     # run command
-    tmap_map_command = ["tmap", "mapall", "-n", "8", "-f", in_ref, "-r", in_fq, "-v","-Y", "-s", out_sam, "stage1", "map4"]#, "stage2", "map4","stage3", "map6"]
+    tmap_map_command = ["tmap", "mapall", "-n", "32", "-f", in_ref, "-r", in_fq, "-v","-Y", "-s", out_sam, "stage1", "map4"]#, "stage2", "map4","stage3", "map6"]
     subprocess.call(tmap_map_command, stdout=log_file,stderr=stderr_file) 
     log_file.close(); stderr_file.close()
