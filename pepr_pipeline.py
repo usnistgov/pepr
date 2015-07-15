@@ -111,7 +111,7 @@ def run_genome_characterization_pipeline(parameters):
 
 
 	print "Running step 1 of 5"
-	index_ref_pipeline(analysis_params)
+	index_ref_pipeline(analysis_paqrams)
 
 	print "Running step 2 of 5"
 	map_pipeline(analysis_params, refine = True)
