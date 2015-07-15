@@ -1,0 +1,106 @@
+## peprs parameters for RM8375
+---
+project_id: MG001
+center: NIST
+RM: RM8375
+ref: /pepr-data/Re.Order.CFSAN008157.HGAP.fasta
+sample_factors: accession, plat, vial, rep
+exp_design:
+  miseq:
+    - accession: SRR1555296
+      plat: miseq
+      vial: 0
+      rep: 1
+    - accession: SRR1555297
+      plat: miseq
+      vial: 0
+      rep: 2
+    - accession: SRR1555298
+      plat: miseq
+      vial: 1
+      rep: 1
+    - accession: SRR1555299
+      plat: miseq
+      vial: 1
+      rep: 2
+    - accession: SRR1555300
+      plat: miseq
+      vial: 2
+      rep: 1
+    - accession: SRR1555301
+      plat: miseq
+      vial: 2
+      rep: 2
+    - accession: SRR1555302
+      plat: miseq
+      vial: 3
+      rep: 1
+    - accession: SRR1555303
+      plat: miseq
+      vial: 3
+      rep: 2
+    - accession: SRR1555304
+      plat: miseq
+      vial: 4
+      rep: 1
+    - accession: SRR1555305
+      plat: miseq
+      vial: 4
+      rep: 2
+    - accession: SRR1555306
+      plat: miseq
+      vial: 5
+      rep: 1
+    - accession: SRR1555307
+      plat: miseq
+      vial: 5
+      rep: 2
+    - accession: SRR1555308
+      plat: miseq
+      vial: 6
+      rep: 1
+    - accession: SRR1555309
+      plat: miseq
+      vial: 6
+      rep: 2
+    - accession: SRR1555310
+      plat: miseq
+      vial: 7
+      rep: 1
+    - accession: SRR1555311
+      plat: miseq
+      vial: 7
+      rep: 2
+  pgm:
+    - accession: SRR1393710
+      plat: pgm
+      vial: 0
+      rep: 1
+    - accession: SRR1393711
+      plat: pgm
+      vial: 1
+      rep: 1
+    - accession: SRR1393713
+      plat: pgm
+      vial: 2
+      rep: 1
+    - accession: SRR1393714
+      plat: pgm
+      vial: 3
+      rep: 1
+    - accession: SRR1393716
+      plat: pgm
+      vial: 4
+      rep: 1
+    - accession: SRR1393718
+      plat: pgm
+      vial: 5
+      rep: 1
+    - accession: SRR1393719
+      plat: pgm
+      vial: 6
+      rep: 1
+    - accession: SRR1393721
+      plat: pgm
+      vial: 7
+      rep: 1
