@@ -32,8 +32,8 @@ RUN echo 'options(repos = list(CRAN = "http://cran.rstudio.com/"))' >> /etc/R/Rp
 
 # install picard
 # this also sets the jars as 'executable' and puts them in the path so they can be found with the 'which ' command - not working correctly
-RUN wget http://downloads.sourceforge.net/project/picard/picard-tools/1.111/picard-tools-1.111.zip;\
-    unzip picard-tools-1.111.zip && rm -rf picard-tools-1.111.zip;\
+RUN wget https://github.com/broadinstitute/picard/releases/download/1.136/picard-tools-1.136.zip;\
+    unzip picard-tools-1.136.zip && rm -rf picard-tools-1.136.zip;\
     chmod +x picard*/*.jar && ln -s `pwd`/picard*/*.jar /usr/local/bin/
 
 # install htslib samtools and bcftools
