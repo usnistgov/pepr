@@ -1,17 +1,32 @@
 ## Pipeline for performing pairwise somatic variant calling
 import sys
 import re
+import os
 import subprocess
 from prepc.samtools_commands import *
 from prepc.varscan_commands import *
 
+
 def main(analysis_params):
+    assert os.path.isfile(analysis_params['ref'])
+    assert os.path.isdir(analysis_params['homogeneity']['log_dir'])
+
     for i in analysis_params['miseq']['accessions']:
+        assert os.path.isfile(analysis_params[i]['markdup_file'])
+        
         samtools_mpileup_single(in_ref= analysis_params['ref'], 
                                in_bam= analysis_params[i]['markdup_file'],
                                out_mpileup=analysis_params[i]['mpileup_file'], 
-                               log_dir=analysis_params[i]['homogeneity_log'])
+                               log_dir=analysis_params['homogeneity']['log_dir'])
+        
+        assert os.path.isfile(analysis_params[i]['mpileup_file'])
+
+    return
     for i in analysis_params['pairs']:
+        assert os.path.isdir(analysis_params[i]['homogeneity_log'])
+        assert os.path.isfile(analysis_params[i]['mpileup_file1'])
+        assert os.path.isfile(analysis_params[i]['mpileup_file2'])
+
         varscan_somatic(in_mpileup1=analysis_params[i]['mpileup_file1'], 
                         in_mpileup2=analysis_params[i]['mpileup_file2'], 
                         snp_out=analysis_params[i]['varscan_snp_file'], 
