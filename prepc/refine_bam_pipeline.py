@@ -1,9 +1,10 @@
+import bwa_commands
+import samtools_commands
+import picard_commands
+import gatk_commands
+
 def main(accession, ref, accession_params):
     ''' Processing single bam file'''
-    import bwa_commands
-    import samtools_commands
-    import picard_commands
-    import gatk_commands
     if accession_params['plat'] == "miseq":
         samtools_commands.samtools_bam_group_sort(in_bam = accession_params['sorted_bam'], 
          out_bam = accession_params['group_sort_file'], 
