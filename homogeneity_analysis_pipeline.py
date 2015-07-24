@@ -8,6 +8,7 @@ from prepc.varscan_commands import *
 
 
 def main(analysis_params):
+    print "Homogeneity analysis"
     assert os.path.isfile(analysis_params['ref'])
     assert os.path.isdir(analysis_params['homogeneity']['log_dir'])
 
