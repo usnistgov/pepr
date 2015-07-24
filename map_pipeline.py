@@ -27,23 +27,26 @@ def main(analysis_params, refine = False):
 				refine_bam(analysis_params, i)
 		else:
 			print "Mapping %s" % i
-			if analysis_params[i]['plat'] == 'pgm':
-				tmap_map_fq( in_ref = analysis_params['ref'],
-					in_fq = analysis_params[i]['fastq1'],
-					out_sam = analysis_params[i]['sam'],
-					log_dir = analysis_params[i]['mapping_log'])
-			elif analysis_params[i]['plat'] == 'miseq':
-				bwa_map_fq( in_ref = analysis_params['ref'],
-					in_fq1 = analysis_params[i]['fastq1'],
-					in_fq2 = analysis_params[i]['fastq2'],
-					out_sam = analysis_params[i]['sam'],
-					log_dir = analysis_params[i]['mapping_log'])
-			elif analysis_params[i]['plat'] == 'pacbio':
-				bwa_map_pacbio( in_ref = analysis_params['ref'],
-					in_fq1 = analysis_params[i]['fastq1'],
-					in_fq2 = analysis_params[i]['fastq2'],
-					out_sam = analysis_params[i]['sam'],
-					log_dir = analysis_params[i]['mapping_log'])	
+			if not os.path.isfile(analysis_params[i]['sam']):
+				if analysis_params[i]['plat'] == 'pgm':
+					tmap_map_fq( in_ref = analysis_params['ref'],
+						in_fq = analysis_params[i]['fastq1'],
+						out_sam = analysis_params[i]['sam'],
+						log_dir = analysis_params[i]['mapping_log'])
+				elif analysis_params[i]['plat'] == 'miseq':
+					bwa_map_fq( in_ref = analysis_params['ref'],
+						in_fq1 = analysis_params[i]['fastq1'],
+						in_fq2 = analysis_params[i]['fastq2'],
+						out_sam = analysis_params[i]['sam'],
+						log_dir = analysis_params[i]['mapping_log'])
+				elif analysis_params[i]['plat'] == 'pacbio':
+					bwa_map_pacbio( in_ref = analysis_params['ref'],
+						in_fq1 = analysis_params[i]['fastq1'],
+						in_fq2 = analysis_params[i]['fastq2'],
+						out_sam = analysis_params[i]['sam'],
+						log_dir = analysis_params[i]['mapping_log'])
+			else:
+				print "sam file exists skipping initial mapping"
 			#sorting, indexing and adding header
 			sam_to_bam(i, analysis_params[i])
 
