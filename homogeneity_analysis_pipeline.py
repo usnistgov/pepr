@@ -13,16 +13,23 @@ def main(analysis_params):
     assert os.path.isdir(analysis_params['homogeneity']['log_dir'])
 
     for i in analysis_params['miseq']['accessions']:
+        assert analysis_params[i]['mpileup_file']
         assert os.path.isfile(analysis_params[i]['markdup_file'])
-        
-        samtools_mpileup_single(in_ref= analysis_params['ref'], 
-                               in_bam= analysis_params[i]['markdup_file'],
-                               out_mpileup=analysis_params[i]['mpileup_file'], 
-                               log_dir=analysis_params['homogeneity']['log_dir'])
-        
-        assert os.path.isfile(analysis_params[i]['mpileup_file'])
 
-    return
+
+        if not os.path.isfile(analysis_params[i]['mpileup_file']) or \
+            os.path.getsize(analysis_params[i]['mpileup_file']) == 0:
+
+            samtools_mpileup_single(in_ref= analysis_params['ref'], 
+                                    in_bam= analysis_params[i]['markdup_file'],
+                                    out_mpileup=analysis_params[i]['mpileup_file'], 
+                                    log_dir=analysis_params['homogeneity']['log_dir'])
+
+            assert os.path.isfile(analysis_params[i]['mpileup_file'])
+            assert os.path.getsize(analysis_params[i]['mpileup_file']) > 0
+        else:
+            print "skipping mpileup for %s" % i
+
     for i in analysis_params['pairs']:
         assert os.path.isdir(analysis_params[i]['homogeneity_log'])
         assert os.path.isfile(analysis_params[i]['mpileup_file1'])
