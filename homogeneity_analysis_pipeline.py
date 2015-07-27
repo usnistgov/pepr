@@ -5,7 +5,17 @@ import os
 import subprocess
 from prepc.samtools_commands import *
 from prepc.varscan_commands import *
+from joblib import Parallel, delayed  
+import multiprocessing
+num_cores = multiprocessing.cpu_count()
 
+
+def parallelVarscan(i, analysis_params):
+    varscan_somatic(in_mpileup1=analysis_params[i]['mpileup_file1'], 
+                        in_mpileup2=analysis_params[i]['mpileup_file2'], 
+                        snp_out=analysis_params[i]['varscan_snp_file'], 
+                        indel_out=analysis_params[i]['varscan_indel_file'], 
+                        log_dir=analysis_params[i]['homogeneity_log'])
 
 def main(analysis_params):
     print "Homogeneity analysis"
@@ -30,16 +40,14 @@ def main(analysis_params):
         else:
             print "skipping mpileup for %s" % i
 
-    for i in analysis_params['pairs']:
-        assert os.path.isdir(analysis_params[i]['homogeneity_log'])
-        assert os.path.isfile(analysis_params[i]['mpileup_file1'])
-        assert os.path.isfile(analysis_params[i]['mpileup_file2'])
+    #for i in analysis_params['pairs']:
+    Parallel(n_jobs=num_cores)(delayed(parallelVarscan)(i, analysis_params) for i in analysis_params['pairs'])
 
-        varscan_somatic(in_mpileup1=analysis_params[i]['mpileup_file1'], 
-                        in_mpileup2=analysis_params[i]['mpileup_file2'], 
-                        snp_out=analysis_params[i]['varscan_snp_file'], 
-                        indel_out=analysis_params[i]['varscan_indel_file'], 
-                        log_dir=analysis_params[i]['homogeneity_log'])            
+        # varscan_somatic(in_mpileup1=analysis_params[i]['mpileup_file1'], 
+        #                 in_mpileup2=analysis_params[i]['mpileup_file2'], 
+        #                 snp_out=analysis_params[i]['varscan_snp_file'], 
+        #                 indel_out=analysis_params[i]['varscan_indel_file'], 
+        #                 log_dir=analysis_params[i]['homogeneity_log'])            
 
 
 
