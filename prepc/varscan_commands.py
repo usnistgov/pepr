@@ -16,13 +16,15 @@ def varscan_somatic(in_mpileup1, in_mpileup2, snp_out, indel_out, log_dir, COV='
 	assert log_dir
 
 	## check for input files and log directory
-	assert os.path.isdir(accession_params['mapping_log'])
-	assert os.path.isfile(accession_params['sorted_bam'])
-	assert os.path.isfile(accession_params['sorted_bam'])
+	assert os.path.isdir(log_dir)
+	assert os.path.isfile(in_mpileup1)
+	assert os.path.isfile(in_mpileup2)
 
 	# prep files
-	log_file = open(log_dir + "/varscan_somatic"+ time.strftime("-%Y-%m-%d-%H-%M-%S.log"),'w')
-	stderr_file = open(log_dir + "/varscan_somatic"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
+	log_file_name = log_dir + "/varscan_somatic"+ time.strftime("-%Y-%m-%d-%H-%M-%S.log")
+	log_file = open(log_file_name,'w')
+	stderr_file_name = log_dir + "/varscan_somatic"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder")
+	stderr_file = open(stderr_file_name,'w')
 	
 	# run command
 	varscan_somatic_command = ["java","-Xmx8g","-jar","/usr/local/bin/VarScan.v2.3.7.jar","somatic",
@@ -34,9 +36,9 @@ def varscan_somatic(in_mpileup1, in_mpileup2, snp_out, indel_out, log_dir, COV='
 	subprocess.call(varscan_somatic_command,stdout=log_file,stderr=stderr_file)
 	
 	## check that process ran
-	assert os.path.isfile(accession_params['indel_out'])
-	assert os.path.isfile(accession_params['snp_out'])
-	assert os.path.isfile(accession_params['log_file'])
-	assert os.path.isfile(accession_params['stderr_file'])
+	assert os.path.isfile(indel_out)
+	assert os.path.isfile(snp_out)
+	assert os.path.isfile(log_file_name)
+	assert os.path.isfile(stderr_file_name)
 	
 	log_file.close(); stderr_file.close()
