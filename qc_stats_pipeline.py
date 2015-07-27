@@ -5,8 +5,10 @@
 import sys
 import re
 import subprocess
-from prepc.qc_stats_commands import *
-from prepc.picard_commands import *
+import os
+# from prepc.qc_stats_commands import *
+from prepc.picard_commands import picard_multiple_metrics
+from prepc.samtools_commands import samtools_depth
 
 def main(analysis_params):
     for i in analysis_params['accessions']:
@@ -23,6 +25,10 @@ def main(analysis_params):
         picard_multiple_metrics(in_bam = analysis_params[i]['sorted_bam'],
                                  bam_stats = analysis_params[i]['bam_metrics'], 
                                  log_dir = analysis_params['qc_stats']['log_dir'])
+
+        samtools_depth(in_bam = analysis_params[i]['sorted_bam'], 
+                        out_depth =analysis_params[i]['bam_depth'], 
+                        log_dir = analysis_params['qc_stats']['log_dir']) 
 
 
 # def main(filename):
