@@ -68,13 +68,14 @@ def bwa_map_pacbio(in_ref, in_fq1, in_fq2, out_sam, log_dir):
 
     ## log files for standard out and error
     sam_file = open(out_sam,'w')
-    stderr_file = open(log_dir + "/bwa_mem"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
+    stderr_file_name = log_dir + "/bwa_mem"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder")
+    stderr_file = open(stderr_file_name,'w')
     
     ## run command
     bwa_mem_command = ["bwa","mem","-x", "pacbio", "-t","8", in_ref,in_fq1]
     subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
 
-    assert os.path.isfile(sam_file)
+    assert os.path.isfile(out_sam)
     assert os.path.isfile(stderr_file)
 
     sam_file.close(); stderr_file.close()

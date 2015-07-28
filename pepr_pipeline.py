@@ -117,7 +117,7 @@ def run_genome_characterization_pipeline(parameters):
 	map_pipeline(analysis_params, refine = True)
 
 	print "Running step 3 of 5"
-	#qc_stats_pipeline(analysis_params)
+	qc_stats_pipeline(analysis_params)
 
 	print "Running step 4 of 5"
 	#consensus_base_pipeline(analysis_params)
