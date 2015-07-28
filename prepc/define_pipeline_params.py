@@ -187,6 +187,7 @@ def define_qc_run(accession, analysis_params):
     '''
     root_name = analysis_params['qc_stats']['analysis_dir'] + "/" + analysis_params['ref_root'] +"_"+ accession
     analysis_params[accession]['bam_metrics'] = root_name + "_stats"
+    analysis_params[accession]['bam_depth'] = root_name + ".depth"
 
 def define_consensus_base_run(plat,analysis_params):
     ''' defining parameters, input, and output files for consensus base analysis

@@ -3,6 +3,7 @@
 import sys
 import time
 import subprocess
+import os
 
 def samtools_index_ref(in_ref, log_dir):
     ''' Indexing reference sequence using bwa'''
@@ -138,3 +139,32 @@ def samtools_mpileup_single(in_ref, in_bam, out_mpileup, log_dir):
     mpileup_command_pairs = ["samtools","mpileup", "-q", "1","-f", in_ref, in_bam]
     subprocess.call(mpileup_command_pairs,stdout=mpileup_file,stderr=stderr_file)
     mpileup_file.close(); stderr_file.close()
+
+def samtools_depth(in_bam, out_depth, log_dir):
+    ''' Calculating depth for a bam file
+    '''
+    print "Running samtools depth ..."
+
+    ## check for variable name
+    assert in_bam
+    assert out_depth
+    assert log_dir
+
+    ## check for input files and log directory
+    assert os.path.isdir(log_dir)
+    assert os.path.isfile(in_bam)
+
+    # prep files
+    depth_file = open(out_depth,'w')
+    stderr_file_name = log_dir + "/samtools_depth"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder")
+    stderr_file = open(stderr_file_name,'w')
+    
+    # run command
+    depth_command = ["samtools","depth", in_bam]
+    subprocess.call(depth_command,stdout=depth_file,stderr=stderr_file)
+
+    ## check that process ran
+    assert os.path.isfile(out_depth)
+    assert os.path.isfile(stderr_file_name)
+
+    depth_file.close(); stderr_file.close()
