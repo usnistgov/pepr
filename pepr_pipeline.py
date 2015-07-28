@@ -78,27 +78,26 @@ def run_genome_characterization_pipeline(parameters):
 	param_file = file(parameters, 'r')
 	pipeline_params = yaml.load(param_file)
 
-	#initiating project
+	## initiating project
 	analysis_params = init_prj(pipeline_params)
 	init_params(pipeline_params, analysis_params)
 
-	#mapping params
+	## mapping params
 	init_analysis('mapping', analysis_params, run_by = 'accession')
 	for i in analysis_params['accessions']:
 		define_map_run(i, analysis_params, pipeline_params)
 
-	#qc_stats params
+	## qc_stats params
 	init_analysis('qc_stats', analysis_params, run_by = 'accession')
 	for i in analysis_params['accessions']:
 		define_qc_run(i, analysis_params)
 
-	#consensus_base params
+	## consensus_base params
 	init_analysis('consensus_base', analysis_params, run_by = 'plat')
 	for i in analysis_params['plat']:
 		define_consensus_base_run(i, analysis_params)
 
-	# Still need to work out bug in parameter definitions
-	#homogeneity params
+	## homogeneity params
 	init_analysis('homogeneity', analysis_params, run_by = 'miseq_pairs')
 	for i in analysis_params['pairs']:
 		acc1, acc2 = i.split("-")
@@ -112,17 +111,16 @@ def run_genome_characterization_pipeline(parameters):
 
 
 	print "Running step 1 of 5"
-	index_ref_pipeline(analysis_params)
+	#index_ref_pipeline(analysis_params)
 
 	print "Running step 2 of 5"
 	map_pipeline(analysis_params, refine = True)
-
 
 	print "Running step 3 of 5"
 	qc_stats_pipeline(analysis_params)
 
 	print "Running step 4 of 5"
-	consensus_base_pipeline(analysis_params)
+	#consensus_base_pipeline(analysis_params)
 
 	print "Running step 5 of 5"
 	homogeneity_analysis_pipeline(analysis_params)

@@ -13,9 +13,9 @@ def sra_get_fastq(plat, accession, out_dir, log_dir):
 
 	## run command
 	if plat == "miseq":
-		sra_get_fastq_command = ["fastq-dump","--split-files","-A", accession, "-O", out_dir]
+		sra_get_fastq_command = ["fastq-dump","--split-files","-L","5","-v","-A", accession, "-O", out_dir]
 	else:
-		sra_get_fastq_command = ["fastq-dump","-A", accession, "-O", out_dir]
+		sra_get_fastq_command = ["fastq-dump","-L","5","-v","-A", accession, "-O", out_dir]
 		
 	subprocess.call(sra_get_fastq_command, stdout=log_file, stderr=stderr_file)
 	log_file.close(); stderr_file.close()
