@@ -22,7 +22,7 @@ def main(analysis_params):
 
 
     ## tmap index
-    indexed_refs = [analysis_params['ref'] + ".tmap." + i for i in ['.anno','.bwt','.pac','.sa']]
+    indexed_refs = [analysis_params['ref'] + ".tmap." + i for i in ['anno','bwt','pac','sa']]
     index_check = map(os.path.isfile, indexed_refs)
     if False in index_check:
         tmap_index_ref(analysis_params['ref'], analysis_params['ref_log'])
