@@ -70,6 +70,7 @@ def picard_markdup(in_bam, out_bam, metrics_file, log_dir):
 
     # prep files
     log_file = open(log_dir + "/picard_markdup"+ time.strftime("-%Y-%m-%d-%H-%M-%S.log"),'w')
+    stderr_file_name = log_dir + "/picard_markdup"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder")
     stderr_file = open(log_dir + "/picard_markdup"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
     
     # run command
@@ -78,7 +79,7 @@ def picard_markdup(in_bam, out_bam, metrics_file, log_dir):
     subprocess.call(markdup_command, stdout=log_file,stderr=stderr_file)
 
     ## checking output
-    assert os.path.isfile(out_bam), "Expected output file %s not present" % out_bam
+    assert os.path.isfile(out_bam), "Expected output file %s not present, check stderr file %s" % (out_bam, stderr_file_name)
     assert os.path.isfile(metrics_file)
 
     log_file.close(); stderr_file.close()
