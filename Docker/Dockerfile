@@ -37,12 +37,12 @@ RUN wget https://github.com/broadinstitute/picard/releases/download/1.136/picard
     chmod +x picard*/*.jar && ln -s `pwd`/picard*/*.jar /usr/local/bin/
 
 # install htslib samtools and bcftools
-RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.2/samtools-1.2.tar.bz2;\
+RUN wget https://github.com/samtools/samtools/releases/download/1.2/samtools-1.2.tar.bz2;\
     tar -xaf samtools-1.2.tar.bz2 && rm -rf samtools-1.2.tar.bz2 ;\
     cd samtools-1.2;\
     make && ln -f -s `pwd`/* /usr/local/bin/ && cd ../
 
-RUN wget http://sourceforge.net/projects/samtools/files/samtools/1.2/bcftools-1.2.tar.bz2;\
+RUN wget https://github.com/samtools/bcftools/releases/download/1.2/bcftools-1.2.tar.bz2;\
     tar -xaf bcftools-1.2.tar.bz2 && rm -rf bcftools-1.2.tar.bz2 ;\
     cd bcftools-1.2;\
     make && ln -f -s `pwd`/bcftools /usr/local/bin/ && cd ../
