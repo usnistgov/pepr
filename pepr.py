@@ -18,8 +18,8 @@ if args.config:
         print "Running '%s' pipeline." % args.pipe
         if args.pipe == "evaluation":
             run_genome_eval_pipeline(args.config)
-        # elif args.pipe == "re-evaluation":
-        #     run_genome_eval_pipeline(args.config, pipe = "skip_get_fastq")
+        elif args.pipe == "re-evaluation":
+            run_genome_eval_pipeline(args.config, pipe = "skip_get_fastq")
         elif args.pipe == "characterization":
             run_genome_characterization_pipeline(args.config)
         elif args.pipe == "genomic_purity":

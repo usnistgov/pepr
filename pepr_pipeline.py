@@ -43,6 +43,7 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
 	print "Running step 1 of 4"
+	# get_fastq_pipeline(analysis_params)
 	if(pipe != 'full'):
 		print "skipping fastq download"
 	else:
