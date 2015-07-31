@@ -26,7 +26,7 @@ def picard_create_dict(in_ref, out_dict, log_dir):
     subprocess.call(markdup_command, stdout=log_file,stderr=stderr_file)
 
     ## checking outputs
-    assert os.path.isfile(out_dict)
+    assert os.path.isfile(out_dict), "Error %s not found" % out_dict
 
     log_file.close(); stderr_file.close()
         
