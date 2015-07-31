@@ -11,6 +11,13 @@ def move_ref_to_ref_dir(ref, name, analysis_params):
     @param name key for analysis_params dict
     @param analysis_params
     '''
+    ## checking inputs
+    assert ref
+    assert os.path.isfile(ref)
+    assert name
+    assert analysis_params
+    assert analysis_params['ref_dir']
+    assert os.path.isdir(analysis_params['ref_dir'])
     
     #copying ref to new ref directory
     subprocess.call(['cp', ref, analysis_params['ref_dir']])
@@ -20,6 +27,14 @@ def move_ref_to_ref_dir(ref, name, analysis_params):
     analysis_params['ref_root'] = os.path.splitext(ref_name)[0]
     analysis_params['ref_dict'] = analysis_params['ref_dir'] + "/" + analysis_params['ref_root'] + ".dict"
     analysis_params['ref_log'] = analysis_params['ref_dir'] + "/" + "log"
+
+    ## checking variables
+    assert analysis_params['ref_root']
+    assert analysis_params['ref_dict']
+    assert analysis_params['ref_log']
+    assert os.path.isdir(analysis_params['ref_log'])
+    assert analysis_params['ref']
+    assert os.path.isfile(analysis_params['ref'])
 
 def init_prj(pipeline_params, move_ref = True):
     '''initiating project generates directory structure, copies ref to directory, and initiates the analysis_params dictionary
@@ -187,6 +202,7 @@ def define_qc_run(accession, analysis_params):
     '''
     root_name = analysis_params['qc_stats']['analysis_dir'] + "/" + analysis_params['ref_root'] +"_"+ accession
     analysis_params[accession]['bam_metrics'] = root_name + "_stats"
+    analysis_params[accession]['bam_depth'] = root_name + ".depth"
 
 def define_consensus_base_run(plat,analysis_params):
     ''' defining parameters, input, and output files for consensus base analysis
