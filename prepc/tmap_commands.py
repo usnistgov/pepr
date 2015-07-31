@@ -9,9 +9,9 @@ def tmap_index_ref(in_ref, log_dir):
     print "Indexing reference with TMAP ..."
     
     ## checking input
-    for variable in [in_ref, log_dir]:
-        assert variable
-    assert os.path.isfile(in_ref)
+    assert in_ref
+    assert log_dir
+    assert os.path.isfile(in_ref), "File check for %s fail" % in_ref
     assert os.path.isdir(log_dir)
 
     ## prep files
@@ -28,6 +28,8 @@ def tmap_index_ref(in_ref, log_dir):
     ## need to add assertions for index files
     assert os.path.isfile(log_file_name)
     assert os.path.isfile(stderr_file_name)
+    for i in ['anno','bwt','pac','sa']:
+        assert os.path.isfile(in_ref + ".tmap." + i)
 
     log_file.close(); stderr_file.close()
 
@@ -54,7 +56,7 @@ def tmap_map_fq(in_ref, in_fq, out_sam, log_dir):
     subprocess.call(tmap_map_command, stdout=log_file,stderr=stderr_file) 
 
     ## checing outputs
-    assert os.path.isfile(out_sam)
+    assert os.path.isfile(out_sam), "Mapping file %s not produced" % out_sam
     assert os.path.isfile(log_file_name)
     assert os.path.isfile(stderr_file_name)
 

@@ -23,7 +23,7 @@ def samtools_index_ref(in_ref, log_dir):
     subprocess.call(faidx_command, stdout=out_file,stderr=stderr_file) 
 
     ## check output
-    ##%%TODO%%## 
+    assert os.path.isfile(in_ref + ".fai")
     stderr_file.close()
 
 def samtools_sam_to_bam(in_sam, out_bam, log_dir):

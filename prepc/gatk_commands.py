@@ -2,7 +2,7 @@ import sys
 import time
 import subprocess
 import os
-    
+
 def gatk_realign(in_ref, in_bam, out_bam, intervals_file, log_dir):
     ''' Indel relignment'''
     print "Realignment Around Indels ..."
@@ -17,6 +17,9 @@ def gatk_realign(in_ref, in_bam, out_bam, intervals_file, log_dir):
     assert os.path.isfile(in_ref)
     assert os.path.isfile(in_bam)
     assert os.path.isdir(log_dir)
+
+    ## checking for gatk
+    assert os.path.isfile("/pepr/utils/GenomeAnalysisTK.jar")
 
     # prep files
     log_file_name = log_dir + "/gatk_realign"+ time.strftime("-%Y-%m-%d-%H-%M-%S.log")

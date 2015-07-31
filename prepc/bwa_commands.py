@@ -25,9 +25,8 @@ def bwa_index_ref(in_ref, log_dir):
     bwa_index_command = ["bwa","index",in_ref]
     subprocess.call(bwa_index_command, stdout=log_file, stderr=stderr_file)
 
-    assert os.path.isfile(log_file)
-    assert os.path.isfile(stderr_file)
-
+    for i in ['.amb','.ann','.bwt','.pac','.sa']:
+        assert os.path.isfile(in_ref + i)
     log_file.close(); stderr_file.close()
 
 def bwa_map_fq(in_ref, in_fq1, in_fq2, out_sam, log_dir):
@@ -51,8 +50,7 @@ def bwa_map_fq(in_ref, in_fq1, in_fq2, out_sam, log_dir):
         bwa_mem_command.append(in_fq2)
     subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
 
-    assert os.path.isfile(sam_file)
-    assert os.path.isfile(stderr_file)
+    assert os.path.isfile(out_sam)
 
     sam_file.close(); stderr_file.close()
 
@@ -76,6 +74,5 @@ def bwa_map_pacbio(in_ref, in_fq1, in_fq2, out_sam, log_dir):
     subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
 
     assert os.path.isfile(out_sam)
-    assert os.path.isfile(stderr_file)
 
     sam_file.close(); stderr_file.close()
