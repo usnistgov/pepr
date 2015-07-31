@@ -26,18 +26,24 @@ def sra_get_fastq(plat, accession, out_dir, log_dir):
 
 	## run command
 	if plat == "miseq":
-		sra_get_fastq_command = ["fastq-dump","--split-files","-L","5","-v","-A", accession, "-O", out_dir]
-		subprocess.call(sra_get_fastq_command, stdout=log_file, stderr=stderr_file)
+		if not os.path.isfile(out_dir + "/" + accession + "_1.fastq") and \
+			not os.path.isfile(out_dir + "/" + accession + "_2.fastq"):
+			sra_get_fastq_command = ["fastq-dump","--split-files","-L","5","-v","-A", accession, "-O", out_dir]
+			subprocess.call(sra_get_fastq_command, stdout=log_file, stderr=stderr_file)
 
-		assert os.path.isfile(out_dir + "/" + accession + "_1.fastq")
-		assert os.path.isfile(out_dir + "/" + accession + "_2.fastq")
-
+			assert os.path.isfile(out_dir + "/" + accession + "_1.fastq")
+			assert os.path.isfile(out_dir + "/" + accession + "_2.fastq")
+		else:
+			print "Skipping download for %s fastq files present" % accession
 	else:
-		sra_get_fastq_command = ["fastq-dump","-L","5","-v","-A", accession, "-O", out_dir]
-		subprocess.call(sra_get_fastq_command, stdout=log_file, stderr=stderr_file)
+		if not os.path.isfile(out_dir + "/" + accession + ".fastq"):
+			sra_get_fastq_command = ["fastq-dump","-L","5","-v","-A", accession, "-O", out_dir]
+			subprocess.call(sra_get_fastq_command, stdout=log_file, stderr=stderr_file)
 
-		assert os.path.isfile(out_dir + "/" + accession + ".fastq")
-		
+			assert os.path.isfile(out_dir + "/" + accession + ".fastq")
+		else:
+			print "Skipping download for %s fastq file present" % accession
+			
 	assert os.path.isfile(log_file_name)
 	assert os.path.isfile(stderr_file_name)
 	log_file.close(); stderr_file.close()
