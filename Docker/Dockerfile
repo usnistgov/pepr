@@ -71,10 +71,10 @@ RUN wget http://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/2.4.5/sratoolkit.2.4.5-ubuntu
         ln -f -s `pwd`/sratoolkit.2.4.5-ubuntu64/bin/* /usr/local/bin/
 
 # install fastqc
-RUN wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip;\
-    unzip fastqc_v0.11.2.zip && cd FastQC;\
-    chmod +x fastqc;\
-    ln -sf `pwd`/fastqc /usr/local/bin/ && cd ../
+#RUN wget http://www.bioinformatics.babraham.ac.uk/projects/fastqc/fastqc_v0.11.2.zip;\
+#    unzip fastqc_v0.11.2.zip && cd FastQC;\
+#    chmod +x fastqc;\
+#    ln -sf `pwd`/fastqc /usr/local/bin/ && cd ../
 
 # install varscan
 RUN wget http://sourceforge.net/projects/varscan/files/VarScan.v2.3.7.jar;\
@@ -92,7 +92,7 @@ RUN git clone --recursive https://github.com/ekg/vcflib.git; \
 #     ln -f -s `pwd`/BAMStats-1.25/BAMStats-1.25.jar /usr/local/bin/BAMStats-1.25.jar && cd ../
 
 # installing cement
-RUN pip install cement
+RUN pip install joblib
 RUN pip install pyYAML
 
 VOLUME /pepr-data
