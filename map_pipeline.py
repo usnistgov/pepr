@@ -17,7 +17,7 @@ def refine_bam(accession, analysis_params):
 
 
 def main(analysis_params, refine = False):
-	sam_to_bam_accession = []
+	sam_to_bam_accessions = []
 	for i in analysis_params['accessions']:
 		print "preparing to map %s" % i
 		if analysis_params[i]['plat'] not in ['pgm','miseq', 'pacbio']:
