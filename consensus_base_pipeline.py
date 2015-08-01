@@ -16,6 +16,6 @@ def parallelConsensus(plat, analysis_params):
                    out_tsv= analysis_params[plat]['consensus_tsv'],
                    log_dir=analysis_params[plat]['consensus_base_log'])   
 
-def main(analysis_params, platforms = analysis_params['plat']):
+def main(analysis_params, platforms):
     Parallel(n_jobs=num_cores)(delayed(parallelConsensus)(i, analysis_params) for i in platforms)
 
