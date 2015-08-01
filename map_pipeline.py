@@ -5,6 +5,7 @@ from prepc.sam_to_bam_pipeline import *
 from prepc.refine_bam_pipeline import main as refine_bam_pipeline
 import warnings
 import os
+from joblib import Parallel, delayed 
 import multiprocessing
 num_cores = multiprocessing.cpu_count()
 
