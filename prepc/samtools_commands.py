@@ -104,7 +104,7 @@ def samtools_bam_index(in_bam, log_dir):
 
 def samtools_bam_group_sort(in_bam, out_bam, log_dir):
     ''' Sorting bam'''
-    print "Sorting bam ..."
+    print "Sorting bam by group ..."
 
     ## checking input
     assert in_bam
