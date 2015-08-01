@@ -63,9 +63,10 @@ def main(analysis_params, refine = False):
 	#sorting, indexing and adding header for non-pacbio
 	req_men = num_cores*2
 	if req_men > mem_gib:
-		job_num = int(mem_gib/2
+		job_num = int(mem_gib/2)
 	else:
 		job_num = int(num_cores)
+
 	Parallel(n_jobs=job_num)(delayed(sam_to_bam)(i, analysis_params[i]) for i in sam_to_bam_accessions)
 
 	#sorting, indexing and adding header for non-pacbio
