@@ -53,7 +53,7 @@ def main(analysis_params, refine = False):
 				print "sam file exists skipping initial mapping"
 	
 	#sorting, indexing and adding header		
-	Parallel(n_jobs=num_cores)(delayed(sam_to_bam)(i, analysis_params) for i in sam_to_bam_accessions)
+	Parallel(n_jobs=num_cores)(delayed(sam_to_bam)(i, analysis_params[i]) for i in sam_to_bam_accessions)
 
 	if refine:
 		#fix pairs, markdup, realignment around indels
