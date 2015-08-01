@@ -26,6 +26,7 @@ def parallelQCstats(i, analysis_params):
     assert os.path.isdir( analysis_params['qc_stats']['log_dir'])
 
     picard_multiple_metrics(in_bam = analysis_params[i]['sorted_bam'],
+        in_ref = analysis_params['ref'],
        bam_stats = analysis_params[i]['bam_metrics'], 
        log_dir = analysis_params['qc_stats']['log_dir'])
     samtools_depth(in_bam = analysis_params[i]['sorted_bam'], 

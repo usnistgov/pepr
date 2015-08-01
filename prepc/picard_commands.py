@@ -131,7 +131,7 @@ def picard_alignment_metrics(in_bam, bam_stats, log_dir):
     ## not sure if bam_stats is a file or a directory
     #assert os.path.isfile(bam_stats)
 
-def picard_multiple_metrics(in_bam, bam_stats, log_dir):
+def picard_multiple_metrics(in_bam, in_ref, bam_stats, log_dir):
     ''' Bam multiple metrics Picard'''
     print "Calculating bam metrics ..."
     
@@ -151,6 +151,7 @@ def picard_multiple_metrics(in_bam, bam_stats, log_dir):
                     "QualityScoreDistribution", "MeanQualityByCycle", "CollectGcBiasMetrics"]
     program_list = ["PROGRAM=" + i for i in program_list]
     multiple_metrics_command = ["java","-Xmx2g","-jar","/usr/local/bin/picard.jar", "CollectMultipleMetrics",
+                        ("REFERENCE_SEQUENCE=%s" % (in_ref)),
                         ("INPUT=%s" % (in_bam)),("OUTPUT=%s" % (bam_stats))] + program_list
     subprocess.call(multiple_metrics_command, stdout=log_file,stderr=stderr_file)
     log_file.close(); stderr_file.close()
