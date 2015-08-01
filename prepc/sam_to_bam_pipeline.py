@@ -39,9 +39,9 @@ def sam_to_bam(accession,accession_params):
     else:
       print "sorted bam present skipping sort for %s" % accession
 
-    if not os.path.isfile(accession_params['sorted_bam'] + ".bai"):
-      samtools_commands.samtools_bam_index( in_bam = accession_params['sorted_bam'], 
-                                          log_dir = accession_params['mapping_log'])
-      assert os.path.isfile(accession_params['sorted_bam'] + ".bai")
-    else:
-      print "sorted bam index present skipping index for %s" % accession
+    # if not os.path.isfile(accession_params['sorted_bam'] + ".bai"):
+    #   samtools_commands.samtools_bam_index( in_bam = accession_params['sorted_bam'], 
+    #                                       log_dir = accession_params['mapping_log'])
+    #   assert os.path.isfile(accession_params['sorted_bam'] + ".bai")
+    # else:
+    #   print "sorted bam index present skipping index for %s" % accession
