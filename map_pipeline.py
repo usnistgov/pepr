@@ -9,6 +9,8 @@ from joblib import Parallel, delayed
 import multiprocessing
 num_cores = multiprocessing.cpu_count()
 
+mem_bytes = os.sysconf('SC_PAGE_SIZE') * os.sysconf('SC_PHYS_PAGES')
+mem_gib = mem_bytes/(1024.**3)
 
 # def refine_bam(accession, analysis_params):
 # 	if os.path.isfile(analysis_params[accession]['markdup_file']):
@@ -19,6 +21,8 @@ num_cores = multiprocessing.cpu_count()
 
 def main(analysis_params, refine = False):
 	sam_to_bam_accessions = []
+	# separate list for pacbio due to large memory requirements
+	pacbio_sam_to_bam_acccessions = []
 	for i in analysis_params['accessions']:
 		print "preparing to map %s" % i
 		if analysis_params[i]['plat'] not in ['pgm','miseq', 'pacbio']:
@@ -29,7 +33,11 @@ def main(analysis_params, refine = False):
 			# if refine:
 			# 	refine_bam(analysis_params, i)
 		else:
-			sam_to_bam_accessions.append(i)
+			if analysis_params[i]['plat'] == 'pacbio':
+				pacbio_sam_to_bam_accession.append(i)
+			else:
+				sam_to_bam_accessions.append(i)
+
 			print "Mapping %s" % i
 			if not os.path.isfile(analysis_params[i]['sam']):
 				if analysis_params[i]['plat'] == 'pgm':
@@ -52,8 +60,17 @@ def main(analysis_params, refine = False):
 			else:
 				print "sam file exists skipping initial mapping"
 
-	#sorting, indexing and adding header		
-	Parallel(n_jobs=num_cores)(delayed(sam_to_bam)(i, analysis_params[i]) for i in sam_to_bam_accessions)
+	#sorting, indexing and adding header for non-pacbio
+	req_men = num_cores*2
+	if req_men > mem_gib:
+		job_num = int(mem_gib/2)
+	Parallel(n_jobs=job_num)(delayed(sam_to_bam)(i, analysis_params[i]) for i in sam_to_bam_accessions)
+
+	#sorting, indexing and adding header for non-pacbio
+	req_men = num_cores*24
+	if req_men > mem_gib:
+		job_num = int(mem_gib/24)
+	Parallel(n_jobs=job_num)(delayed(sam_to_bam)(i, analysis_params[i]) for i in pacbio_sam_to_bam_accessions)
 
 	if refine:
 		refine_accessions = []
@@ -63,4 +80,7 @@ def main(analysis_params, refine = False):
 			else:
 				refine_accessions.append(i)
 		#fix pairs, markdup, realignment around indels
+		req_men = num_cores*4
+		if req_men > mem_gib:
+			job_num = int(mem_gib/4)
 		Parallel(n_jobs=num_cores)(delayed(refine_bam_pipeline)(i, analysis_params['ref'], analysis_params[i]) for i in refine_accessions)

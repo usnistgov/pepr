@@ -49,7 +49,7 @@ def picard_add_header(in_bam, out_bam, log_dir, read_group, pacbio):
     # run command
     heap = "-Xmx2g"
     if pacbio:
-        heap = "-Xmx3g"
+        heap = "-Xmx24g"
         
     add_header_command = ["java",heap,"-jar","/usr/local/bin/picard.jar","AddOrReplaceReadGroups",
                             "SO=coordinate", "CREATE_INDEX=true",
