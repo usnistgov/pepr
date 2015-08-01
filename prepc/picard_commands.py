@@ -74,7 +74,7 @@ def picard_markdup(in_bam, out_bam, metrics_file, log_dir):
     stderr_file = open(log_dir + "/picard_markdup"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
     
     # run command
-    markdup_command = ["java","-Xmx2g","-jar","/usr/local/bin/picard.jar", "MarkDuplicates", "READ_NAME_REGEX=null", "VALIDATION_STRINGENCY=LENIENT",
+    markdup_command = ["java","-Xmx2g","-jar","/usr/local/bin/picard.jar", "MarkDuplicates", "READ_NAME_REGEX=null", "VALIDATION_STRINGENCY=SILENT",
                         ("INPUT=%s" % (in_bam)),("METRICS_FILE=%s" % (metrics_file)),("OUTPUT=%s" % (out_bam))]
     subprocess.call(markdup_command, stdout=log_file,stderr=stderr_file)
 
