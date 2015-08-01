@@ -51,7 +51,7 @@ def picard_add_header(in_bam, out_bam, log_dir, read_group, pacbio):
     if pacbio:
         heap = "-Xmx3g"
         
-    add_header_command = ["java","-Xmx2g","-jar","/usr/local/bin/picard.jar","AddOrReplaceReadGroups",
+    add_header_command = ["java",heap,"-jar","/usr/local/bin/picard.jar","AddOrReplaceReadGroups",
                             "SO=coordinate", "CREATE_INDEX=true",
                         ("INPUT=%s" % (in_bam)),("OUTPUT=%s" % (out_bam))] + read_group
     subprocess.call(add_header_command, stdout=log_file,stderr=stderr_file)
