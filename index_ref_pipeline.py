@@ -30,7 +30,7 @@ def main(analysis_params):
         print "skipping tmap indexing, index files present"
 
     ## bwa index
-    indexed_refs = [analysis_params['ref'] + i for i in ['.anb','.ann','.bwt','.pac','.sa']]
+    indexed_refs = [analysis_params['ref'] + i for i in ['.amb','.ann','.bwt','.pac','.sa']]
     index_check = map(os.path.isfile, indexed_refs)
     if False in index_check:
         bwa_index_ref(analysis_params['ref'], analysis_params['ref_log'])
