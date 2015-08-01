@@ -10,11 +10,11 @@ import multiprocessing
 num_cores = multiprocessing.cpu_count()
 
 
-def refine_bam(accession, analysis_params):
-	if os.path.isfile(analysis_params[accession]['markdup_file']):
-	    print "Refine bam present skip refine mapping"
-	else:
-		refine_bam_pipeline(accession, analysis_params['ref'], analysis_params[accession])
+# def refine_bam(accession, analysis_params):
+# 	if os.path.isfile(analysis_params[accession]['markdup_file']):
+# 	    print "Refine bam present skip refine mapping"
+# 	else:
+# 		refine_bam_pipeline(accession, analysis_params['ref'], analysis_params[accession])
 
 
 def main(analysis_params, refine = False):
@@ -59,7 +59,7 @@ def main(analysis_params, refine = False):
 		refine_accessions = []
 		for i in analysis_params['accessions']:
 			if os.path.isfile(analysis_params[accession]['markdup_file']):
-	    		print "Refine %s bam present skip refine mapping" % i
+				print "Refine %s bam present skip refine mapping" % i
 			else:
 				refine_accessions.append(i)
 		#fix pairs, markdup, realignment around indels
