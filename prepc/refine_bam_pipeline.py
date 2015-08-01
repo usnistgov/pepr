@@ -96,9 +96,9 @@ def main(accession, ref, accession_params):
     assert os.path.isfile(accession_params['metrics_file'])
 
     #if not os.path.isfile(accession_params['markdup_file'] + ".bai"):
-    samtools_commands.samtools_bam_index(
-            in_bam = accession_params['markdup_file'], 
-            log_dir = accession_params['mapping_log'])
+    # samtools_commands.samtools_bam_index(
+    #         in_bam = accession_params['markdup_file'], 
+    #         log_dir = accession_params['mapping_log'])
     #else:
     #    print "skipping index"
     assert os.path.isfile(accession_params['markdup_file'] + ".bai")
