@@ -159,16 +159,18 @@ def samtools_bam_merge(bam_list, out_bam, log_dir):
 
     ## prep files
     log_file = open(log_dir + "/samtools_bam_merge"+ time.strftime("-%Y-%m-%d-%H-%M-%S.log"),'w')
-    stderr_file = open(log_dir + "/samtools_bam_merge"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
+    stderr_file_name = log_dir + "/samtools_bam_merge"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder")
+    stderr_file = open(stderr_file_name,'w')
     
     ## run command
     merge_bam_command = ["samtools","merge", "-b",bam_list, out_bam]
     subprocess.call(merge_bam_command, stdout=log_file,stderr=stderr_file)
-
-    ## checking output 
-    assert os.path.isfile(out_bam)
-
     log_file.close(); stderr_file.close()
+    
+    ## checking output 
+    assert os.path.isfile(out_bam), "Expected output file %s not found. See stderr file %s" % (out_bam,stderr_file_name)
+
+    
 
 def samtools_mpileup(in_ref, in_bams,out_vcf, log_dir, varscan_pairs = False):
     ''' Takes a list of bam files and reference genome then
