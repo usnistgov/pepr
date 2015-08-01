@@ -5,17 +5,19 @@ from prepc.sam_to_bam_pipeline import *
 from prepc.refine_bam_pipeline import main as refine_bam_pipeline
 import warnings
 import os
+import multiprocessing
+num_cores = multiprocessing.cpu_count()
 
-def refine_bam(analysis_params, accession):
+
+def refine_bam(accession, analysis_params):
 	if os.path.isfile(analysis_params[accession]['markdup_file']):
 	    print "Refine bam present skip refine mapping"
-	#elif analysis_params[accession['plat'] == 'pacbio':
-   	#	analysis_params[accession]['markdup_file'] = accession_params[accession]['sorted_bam']
 	else:
 		refine_bam_pipeline(accession, analysis_params['ref'], analysis_params[accession])
 
 
 def main(analysis_params, refine = False):
+	sam_to_bam_accession = []
 	for i in analysis_params['accessions']:
 		print "preparing to map %s" % i
 		if analysis_params[i]['plat'] not in ['pgm','miseq', 'pacbio']:
@@ -26,6 +28,7 @@ def main(analysis_params, refine = False):
 			if refine:
 				refine_bam(analysis_params, i)
 		else:
+			sam_to_bam_accessions.append(i)
 			print "Mapping %s" % i
 			if not os.path.isfile(analysis_params[i]['sam']):
 				if analysis_params[i]['plat'] == 'pgm':
@@ -47,10 +50,12 @@ def main(analysis_params, refine = False):
 						log_dir = analysis_params[i]['mapping_log'])
 			else:
 				print "sam file exists skipping initial mapping"
-			#sorting, indexing and adding header
-			sam_to_bam(i, analysis_params[i])
+	
+	#sorting, indexing and adding header		
+	Parallel(n_jobs=num_cores)(delayed(sam_to_bam)(i, analysis_params) for i in sam_to_bam_accessions)
 
-	        #fix pairs, markdup, realignment around indels
-        	if refine:
-        		refine_bam(analysis_params, i)
+	if refine:
+		#fix pairs, markdup, realignment around indels
+		Parallel(n_jobs=num_cores)(delayed(refine_bam)(i, analysis_params) for i in sam_to_bam_accessions)
+	        
 	       
