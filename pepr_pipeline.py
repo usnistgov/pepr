@@ -60,8 +60,8 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 	map_pipeline(analysis_params)
 
 	print "Running step 4 of 4"
-	for i in analysis_params['plat']:
-		pilon_pipeline(i, analysis_params)	
+	#for i in analysis_params['plat']:
+	pilon_pipeline('miseq', analysis_params)	
 
 
 	
