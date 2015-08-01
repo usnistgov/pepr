@@ -58,7 +58,7 @@ def bwa_map_fq(in_ref, in_fq1, in_fq2, out_sam, log_dir):
 
 def bwa_map_pacbio(in_ref, in_fq1, in_fq2, out_sam, log_dir):
     ''' Mapping paired-end reads to reference'''
-    print "Mapping paired-end reads to reference"
+    print "Mapping pacbio reads to reference"
     
     assert log_dir
     assert in_ref
