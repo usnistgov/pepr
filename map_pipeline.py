@@ -34,7 +34,7 @@ def main(analysis_params, refine = False):
 			# 	refine_bam(analysis_params, i)
 		else:
 			if analysis_params[i]['plat'] == 'pacbio':
-				pacbio_sam_to_bam_accession.append(i)
+				pacbio_sam_to_bam_accessions.append(i)
 			else:
 				sam_to_bam_accessions.append(i)
 
