@@ -51,13 +51,13 @@ def main(accession, ref, accession_params):
         else:
             print "skipping sort"
 
-        assert os.path.isfile(accession_params['sort_fix_file'])
-        if not os.path.isfile(accession_params['sort_fix_file'] + ".bai"):
-            samtools_commands.samtools_bam_index(
+        #assert os.path.isfile(accession_params['sort_fix_file'])
+        #if not os.path.isfile(accession_params['sort_fix_file'] + ".bai"):
+        samtools_commands.samtools_bam_index(
                 in_bam = accession_params['sort_fix_file'], 
                 log_dir = accession_params['mapping_log'])
-        else:
-            print "skipping index"
+        #else:
+        #    print "skipping index"
 
         assert os.path.isfile(accession_params['sort_fix_file'] + ".bai")
         bam_file = accession_params['sort_fix_file']
@@ -95,10 +95,10 @@ def main(accession, ref, accession_params):
     assert os.path.isfile(accession_params['markdup_file'])
     assert os.path.isfile(accession_params['metrics_file'])
 
-    if not os.path.isfile(accession_params['markdup_file'] + ".bai"):
-        samtools_commands.samtools_bam_index(
+    #if not os.path.isfile(accession_params['markdup_file'] + ".bai"):
+    samtools_commands.samtools_bam_index(
             in_bam = accession_params['markdup_file'], 
             log_dir = accession_params['mapping_log'])
-    else:
-        print "skipping index"
+    #else:
+    #    print "skipping index"
     assert os.path.isfile(accession_params['markdup_file'] + ".bai")
