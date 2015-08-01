@@ -148,7 +148,7 @@ def picard_multiple_metrics(in_bam, bam_stats, log_dir):
     
     # run command
     program_list = ["CollectAlignmentSummaryMetrics","CollectInsertSizeMetrics",
-                    "QualityScoreDistribution", "MeanQualityByCycle"]
+                    "QualityScoreDistribution", "MeanQualityByCycle", "CollectGcBiasMetrics"]
     program_list = ["PROGRAM=" + i for i in program_list]
     multiple_metrics_command = ["java","-Xmx2g","-jar","/usr/local/bin/picard.jar", "CollectMultipleMetrics",
                         ("INPUT=%s" % (in_bam)),("OUTPUT=%s" % (bam_stats))] + program_list
