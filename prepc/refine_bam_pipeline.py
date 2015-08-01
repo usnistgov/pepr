@@ -101,4 +101,4 @@ def main(accession, ref, accession_params):
     #         log_dir = accession_params['mapping_log'])
     #else:
     #    print "skipping index"
-    assert os.path.isfile(accession_params['markdup_file'] + ".bai")
+    #assert os.path.isfile(accession_params['markdup_file'] + ".bai"), "Expected file %s not found check "

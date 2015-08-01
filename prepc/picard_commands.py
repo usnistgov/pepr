@@ -82,6 +82,8 @@ def picard_markdup(in_bam, out_bam, metrics_file, log_dir):
 
     ## checking output
     assert os.path.isfile(out_bam), "Expected output file %s not present, check stderr file %s" % (out_bam, stderr_file_name)
+    bam_index = accession_params['markdup_file'] + ".bai"
+    assert os.path.isfile(bam_index), "Expected output file %s not present, check stderr file %s" % (bam_index, stderr_file_name)
     assert os.path.isfile(metrics_file)
 
     log_file.close(); stderr_file.close()
