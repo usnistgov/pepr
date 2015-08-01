@@ -118,7 +118,7 @@ def samtools_bam_group_sort(in_bam, out_bam, temp, log_dir):
     stderr_file = open(log_dir + "/samtools_bam_group_sort"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
 
     # run command
-    bam_group_sort_command = ["samtools", "sort", "-n", "-O", "bam", "-o", out_bam, "-T", temp, log_dir, in_bam]
+    bam_group_sort_command = ["samtools", "sort", "-n", "-O", "bam", "-o", out_bam, "-T", temp, in_bam]
     subprocess.call(bam_group_sort_command, stdout=log_file,stderr=stderr_file) 
 
     ## checking output
