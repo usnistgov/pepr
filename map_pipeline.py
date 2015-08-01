@@ -58,7 +58,7 @@ def main(analysis_params, refine = False):
 	if refine:
 		refine_accessions = []
 		for i in analysis_params['accessions']:
-			if os.path.isfile(analysis_params[accession]['markdup_file']):
+			if os.path.isfile(analysis_params[i]['markdup_file']):
 				print "Refine %s bam present skip refine mapping" % i
 			else:
 				refine_accessions.append(i)
