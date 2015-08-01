@@ -26,7 +26,8 @@ def main(accession, ref, accession_params):
         if not os.path.isfile(accession_params['group_sort_file']):
             samtools_commands.samtools_bam_group_sort(
                 in_bam = accession_params['sorted_bam'], 
-                out_bam = accession_params['group_sort_file'], 
+                out_bam = accession_params['group_sort_file'],
+                temp = accession, 
                 log_dir = accession_params['mapping_log'])
         else:
             print "skipping group sort"
@@ -47,6 +48,7 @@ def main(accession, ref, accession_params):
             samtools_commands.samtools_bam_sort(  
                 in_bam = accession_params['fix_file'],
                 out_bam = accession_params['sort_fix_file'],
+                temp = accession,
                 log_dir=accession_params['mapping_log'])
         else:
             print "skipping sort"

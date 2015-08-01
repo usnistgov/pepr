@@ -53,7 +53,7 @@ def samtools_sam_to_bam(in_sam, out_bam, log_dir):
     bam_file.close(); stderr_file.close()
 
 
-def samtools_bam_sort(in_bam, out_bam, log_dir):
+def samtools_bam_sort(in_bam, out_bam, temp, log_dir):
     ''' Sorting bam'''
     print "Sorting bam ..."
 
@@ -69,7 +69,7 @@ def samtools_bam_sort(in_bam, out_bam, log_dir):
     stderr_file = open(log_dir + "/samtools_bam_sort"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
 
     ## run command
-    bam_sort_command = ["samtools","sort","-T","sort_temp","-O", "bam", in_bam]
+    bam_sort_command = ["samtools","sort","-T",temp,"-O", "bam", in_bam]
     subprocess.call(bam_sort_command, stdout=out_file,stderr=stderr_file) 
 
     ## checking output
@@ -102,7 +102,7 @@ def samtools_bam_index(in_bam, log_dir):
     log_file.close(); stderr_file.close()
 
 
-def samtools_bam_group_sort(in_bam, out_bam, log_dir):
+def samtools_bam_group_sort(in_bam, out_bam, temp, log_dir):
     ''' Sorting bam'''
     print "Sorting bam by group ..."
 
@@ -118,8 +118,7 @@ def samtools_bam_group_sort(in_bam, out_bam, log_dir):
     stderr_file = open(log_dir + "/samtools_bam_group_sort"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
 
     # run command
-    # the "-T" had out_dir after it not sure if log_dir will work, or what gets put there
-    bam_group_sort_command = ["samtools", "sort", "-n", "-O", "bam", "-o", out_bam, "-T", log_dir, in_bam]
+    bam_group_sort_command = ["samtools", "sort", "-n", "-O", "bam", "-o", out_bam, "-T", temp, log_dir, in_bam]
     subprocess.call(bam_group_sort_command, stdout=log_file,stderr=stderr_file) 
 
     ## checking output
