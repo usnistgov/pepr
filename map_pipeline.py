@@ -56,7 +56,13 @@ def main(analysis_params, refine = False):
 	Parallel(n_jobs=num_cores)(delayed(sam_to_bam)(i, analysis_params[i]) for i in sam_to_bam_accessions)
 
 	if refine:
+		refine_accessions = []
+		for i in analysis_params['accessions']:
+			if os.path.isfile(analysis_params[accession]['markdup_file']):
+	    		print "Refine %s bam present skip refine mapping" % i
+			else:
+				refine_accessions.append(i)
 		#fix pairs, markdup, realignment around indels
-		Parallel(n_jobs=num_cores)(delayed(refine_bam)(i, analysis_params) for i in sam_to_bam_accessions)
+		Parallel(n_jobs=num_cores)(delayed(refine_bam_pipeline)(i, analysis_params['ref'], analysis_params[i]) for i in refine_accessions)
 
 	       
