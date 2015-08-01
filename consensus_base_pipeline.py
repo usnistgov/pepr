@@ -5,7 +5,7 @@ from joblib import Parallel, delayed
 import multiprocessing
 num_cores = multiprocessing.cpu_count()
 
-def parallelConsensus(plat, analysis_parmas):
+def parallelConsensus(plat, analysis_params):
     # whole genome variant calls
     bam_list = [analysis_params[i]['markdup_file'] for i in analysis_params[plat]['accessions']]
     samtools_mpileup(in_ref=analysis_params['ref'],
