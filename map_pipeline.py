@@ -58,5 +58,5 @@ def main(analysis_params, refine = False):
 	if refine:
 		#fix pairs, markdup, realignment around indels
 		Parallel(n_jobs=num_cores)(delayed(refine_bam)(i, analysis_params) for i in sam_to_bam_accessions)
-	        
+
 	       
