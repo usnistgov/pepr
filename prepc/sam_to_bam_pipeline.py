@@ -14,16 +14,16 @@ def sam_to_bam(accession,accession_params):
     assert os.path.isfile(accession_params['sam'])
     assert os.path.isdir(accession_params['mapping_log'])
 
-    if not os.path.isfile(accession_params['bam']):
-      samtools_commands.samtools_sam_to_bam(in_sam = accession_params['sam'], 
-                                            out_bam = accession_params['bam'], 
-                                            log_dir=accession_params['mapping_log'])
-    else:
-      print "bam file present skipping sam to bam for %s" % accession
+    # if not os.path.isfile(accession_params['bam']):
+    #   samtools_commands.samtools_sam_to_bam(in_sam = accession_params['sam'], 
+    #                                         out_bam = accession_params['bam'], 
+    #                                         log_dir=accession_params['mapping_log'])
+    # else:
+    #   print "bam file present skipping sam to bam for %s" % accession
 
 
     if not os.path.isfile(accession_params['header_file']):
-      picard_commands.picard_add_header( in_bam=accession_params['bam'], 
+      picard_commands.picard_add_header( in_bam=accession_params['sam'],#in_bam=accession_params['bam'], 
                                        out_bam=accession_params['header_file'],
                                        log_dir=accession_params['mapping_log'],
                                        read_group=accession_params['read_group'])
