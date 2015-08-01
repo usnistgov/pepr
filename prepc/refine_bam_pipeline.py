@@ -32,6 +32,8 @@ def main(accession, ref, accession_params):
             print "skipping group sort"
         
         assert os.path.isfile(accession_params['group_sort_file'])
+        
+        ## look into moving to sam_to_bam
         if not os.path.isfile(accession_params['fix_file']):
             samtools_commands.samtools_bam_fixmate(
                 in_bam = accession_params['group_sort_file'],
@@ -69,6 +71,7 @@ def main(accession, ref, accession_params):
     assert accession_params['markdup_file']
     assert accession_params['metrics_file']
 
+    ## move to miseq only pipeline
     if not os.path.isfile(accession_params['realign_file']):
         gatk_commands.gatk_realign(in_ref=ref,
             in_bam=bam_file,

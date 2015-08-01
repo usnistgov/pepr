@@ -63,5 +63,4 @@ def main(analysis_params, refine = False):
 			else:
 				refine_accessions.append(i)
 		#fix pairs, markdup, realignment around indels
-		print refine_accessions
-		# Parallel(n_jobs=num_cores)(delayed(refine_bam_pipeline)(i, analysis_params['ref'], analysis_params[i]) for i in refine_accessions)
+		Parallel(n_jobs=num_cores)(delayed(refine_bam_pipeline)(i, analysis_params['ref'], analysis_params[i]) for i in refine_accessions)

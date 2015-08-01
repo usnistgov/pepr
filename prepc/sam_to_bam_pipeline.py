@@ -29,7 +29,7 @@ def sam_to_bam(accession,accession_params):
                                        read_group=accession_params['read_group'])
 
     else:
-      print "bam header file present skipping add header for %s" % accession    
+      print "bam header file present skipping add header for %s" % accession
     
     if not os.path.isfile(accession_params['sorted_bam']):
       samtools_commands.samtools_bam_sort(  in_bam = accession_params['header_file'],
