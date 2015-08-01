@@ -21,28 +21,28 @@ def sam_to_bam(accession,accession_params):
     # else:
     #   print "bam file present skipping sam to bam for %s" % accession
 
-
+    ## add head converts to bam, adds header, sorts and index
     if not os.path.isfile(accession_params['header_file']):
       picard_commands.picard_add_header( in_bam=accession_params['sam'],#in_bam=accession_params['bam'], 
-                                       out_bam=accession_params['header_file'],
+                                       out_bam=accession_params['sorted_bam'],
                                        log_dir=accession_params['mapping_log'],
                                        read_group=accession_params['read_group'])
 
-    else:
-      print "bam header file present skipping add header for %s" % accession
+    # else:
+    #   print "bam header file present skipping add header for %s" % accession
     
-    if not os.path.isfile(accession_params['sorted_bam']):
-      samtools_commands.samtools_bam_sort(  in_bam = accession_params['header_file'],
-                                          out_bam = accession_params['sorted_bam'],
-                                          log_dir=accession_params['mapping_log'])
-      assert os.path.isfile(accession_params['sorted_bam'])      
-    else:
-      print "sorted bam present skipping sort for %s" % accession
+    # if not os.path.isfile(accession_params['sorted_bam']):
+    #   samtools_commands.samtools_bam_sort(  in_bam = accession_params['header_file'],
+    #                                       out_bam = accession_params['sorted_bam'],
+    #                                       log_dir=accession_params['mapping_log'])
+    #   assert os.path.isfile(accession_params['sorted_bam'])      
+    # else:
+    #   print "sorted bam present skipping sort for %s" % accession
 
-    #if not os.path.isfile(accession_params['sorted_bam'] + ".bai"):
-    #allways runs index - insures index is upto date
-    samtools_commands.samtools_bam_index( in_bam = accession_params['sorted_bam'], 
-                                          log_dir = accession_params['mapping_log'])
-    assert os.path.isfile(accession_params['sorted_bam'] + ".bai")
+    # #if not os.path.isfile(accession_params['sorted_bam'] + ".bai"):
+    # #allways runs index - insures index is upto date
+    # samtools_commands.samtools_bam_index( in_bam = accession_params['sorted_bam'], 
+    #                                       log_dir = accession_params['mapping_log'])
+    # assert os.path.isfile(accession_params['sorted_bam'] + ".bai")
     #else:
     #  print "sorted bam index present skipping index for %s" % accession
