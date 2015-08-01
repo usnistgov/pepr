@@ -28,7 +28,7 @@ def gatk_realign(in_ref, in_bam, out_bam, intervals_file, log_dir):
     stderr_file = open(stderr_file_name,'w')
     
     # run commands
-    GATK_command = ["java","-jar","-Xmx16g","/pepr/utils/GenomeAnalysisTK.jar"]
+    GATK_command = ["java","-jar","-Xmx4g","/pepr/utils/GenomeAnalysisTK.jar"]
     realigner_target_command = GATK_command + ["-T","RealignerTargetCreator", "-R",in_ref,"-I",in_bam, "-o", intervals_file]
     subprocess.call(realigner_target_command,stdout=log_file,stderr=stderr_file)
 
