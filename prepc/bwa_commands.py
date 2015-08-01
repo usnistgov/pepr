@@ -72,7 +72,7 @@ def bwa_map_pacbio(in_ref, in_fq1, in_fq2, out_sam, log_dir):
     stderr_file = open(stderr_file_name,'w')
     
     ## run command
-    bwa_mem_command = ["bwa","mem","-x", "pacbio", "-t", "-M", num_cores, in_ref,in_fq1]
+    bwa_mem_command = ["bwa","mem","-x", "pacbio", "-t" num_cores , "-M", in_ref,in_fq1]
     subprocess.call(bwa_mem_command, stdout=sam_file, stderr=stderr_file)  
 
     assert os.path.isfile(out_sam)
