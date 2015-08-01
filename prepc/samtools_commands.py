@@ -92,7 +92,7 @@ def samtools_bam_index(in_bam, log_dir):
     subprocess.call(["samtools","index",in_bam],stdout=log_file,stderr=stderr_file)
 
     ## checking output
-    assert os.path.isfile(in_bam + ".bai")
+    assert os.path.isfile(in_bam + ".bai"), "Expected output file %s not found" % in_bam + ".bai"
 
     log_file.close(); stderr_file.close()
 
