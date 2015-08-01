@@ -30,7 +30,7 @@ def picard_create_dict(in_ref, out_dict, log_dir):
 
     log_file.close(); stderr_file.close()
         
-def picard_add_header(in_bam, out_bam, log_dir, read_group):
+def picard_add_header(in_bam, out_bam, log_dir, read_group, pacbio):
     ''' Adding header to bam'''
     print "Adding header to bam ..."
 
@@ -47,6 +47,10 @@ def picard_add_header(in_bam, out_bam, log_dir, read_group):
     stderr_file = open(log_dir + "/picard_add_header"+ time.strftime("-%Y-%m-%d-%H-%M-%S.stder"),'w')
     
     # run command
+    heap = "-Xmx2g"
+    if pacbio:
+        heap = "-Xmx3g"
+        
     add_header_command = ["java","-Xmx2g","-jar","/usr/local/bin/picard.jar","AddOrReplaceReadGroups",
                             "SO=coordinate", "CREATE_INDEX=true",
                         ("INPUT=%s" % (in_bam)),("OUTPUT=%s" % (out_bam))] + read_group

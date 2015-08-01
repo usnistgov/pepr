@@ -20,13 +20,17 @@ def sam_to_bam(accession,accession_params):
     #                                         log_dir=accession_params['mapping_log'])
     # else:
     #   print "bam file present skipping sam to bam for %s" % accession
+    pacbio = False
+    if accession_params['plat'] == 'pacbio':
+      pacbio = True
 
     ## add head converts to bam, adds header, sorts and index
     if not os.path.isfile(accession_params['header_file']):
       picard_commands.picard_add_header( in_bam=accession_params['sam'],#in_bam=accession_params['bam'], 
                                        out_bam=accession_params['sorted_bam'],
                                        log_dir=accession_params['mapping_log'],
-                                       read_group=accession_params['read_group'])
+                                       read_group=accession_params['read_group'], 
+                                       pacbio = pacbio)
 
     # else:
     #   print "bam header file present skipping add header for %s" % accession
