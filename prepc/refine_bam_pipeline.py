@@ -86,7 +86,7 @@ def main(accession, ref, accession_params):
 
     if not os.path.isfile(accession_params['markdup_file']):
         picard_commands.picard_markdup(
-            in_bam = accession_params['realign_file'], 
+            in_bam = bam_file, #accession_params['realign_file'], 
             out_bam = accession_params['markdup_file'], 
             metrics_file = accession_params['metrics_file'],
             log_dir = accession_params['mapping_log'])
