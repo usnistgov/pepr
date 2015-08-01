@@ -17,7 +17,7 @@ def parallelVarscan(i, analysis_params):
                         indel_out=analysis_params[i]['varscan_indel_file'], 
                         log_dir=analysis_params[i]['homogeneity_log'])
 
-def parallelVarscanMpileip(i, analysis_params):
+def parallelVarscanMpileup(i, analysis_params):
     assert analysis_params[i]['mpileup_file']
     assert os.path.isfile(analysis_params[i]['markdup_file'])
 
