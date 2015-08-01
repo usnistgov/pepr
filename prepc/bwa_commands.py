@@ -8,7 +8,7 @@ import time
 import subprocess
 import os
 import multiprocessing
-num_cores = multiprocessing.cpu_count()
+num_cores = str(multiprocessing.cpu_count())
 
 def bwa_index_ref(in_ref, log_dir):
     ''' Indexing reference sequence using bwa'''
