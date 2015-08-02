@@ -8,6 +8,7 @@ from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline
 from consensus_base_pipeline import main as consensus_base_pipeline 
 from genomic_purity_pipeline import main as genomic_purity_pipeline 
 from prepc.define_pipeline_params import *
+from prepc.sms_status import main as send_sms:
 
 def run_genome_eval_pipeline(parameters, pipe = "full"):
 	''' Full genome evaluation pipeline takes an input parameter file and;
@@ -43,13 +44,13 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
 	print "Running step 1 of 4"
-	# get_fastq_pipeline(analysis_params)
-	if(pipe != 'full'):
-		print "skipping fastq download"
-	else:
-		print "downloading fastq"
-		get_fastq_pipeline(analysis_params)
-		return 
+	get_fastq_pipeline(analysis_params)
+	# if(pipe != 'full'):
+	# 	print "skipping fastq download"
+	# else:
+	# 	print "downloading fastq"
+	# 	get_fastq_pipeline(analysis_params)
+	# 	return 
 
 
 	print "Running step 2 of 4"
@@ -110,20 +111,22 @@ def run_genome_characterization_pipeline(parameters):
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
+  	print "Running step 1 of 6"
+	get_fastq_pipeline(analysis_params)
 
-	print "Running step 1 of 5"
+	print "Running step 1 of 6"
 	index_ref_pipeline(analysis_params)
 
-	print "Running step 2 of 5"
+	print "Running step 2 of 6"
 	map_pipeline(analysis_params, refine = True)
 
-	print "Running step 3 of 5"
+	print "Running step 3 of 6"
 	qc_stats_pipeline(analysis_params)
 
-	print "Running step 4 of 5"
+	print "Running step 4 of 6"
 	consensus_base_pipeline(analysis_params, platforms = ['miseq','pgm'])
 
-	print "Running step 5 of 5"
+	print "Running step 5 of 6"
 	homogeneity_analysis_pipeline(analysis_params)
 
 def run_genomic_purity_pipeline(parameters):
