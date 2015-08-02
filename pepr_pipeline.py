@@ -118,6 +118,10 @@ def run_genome_characterization_pipeline(parameters, sms_config):
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
+  	if sms_config:
+		print "Sending pipeline start message"
+		send_sms(sms_config, message = "Starting PEPR pipeline")
+
   	print "Running step 1 of 6"
 	get_fastq_pipeline(analysis_params)
 
@@ -135,6 +139,10 @@ def run_genome_characterization_pipeline(parameters, sms_config):
 
 	print "Running step 5 of 6"
 	homogeneity_analysis_pipeline(analysis_params)
+
+	if sms_config:
+		print "Sending pipeline completion message"
+		send_sms(sms_config)
 
 def run_genomic_purity_pipeline(parameters, sms_config):
 	''' Genomic purity pipeline;
@@ -161,5 +169,13 @@ def run_genomic_purity_pipeline(parameters, sms_config):
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
+  	if sms_config:
+		print "Sending pipeline start message"
+		send_sms(sms_config, message = "Starting PEPR pipeline")
+
   	print "Running genomic purity pipeline"
   	genomic_purity_pipeline(analysis_params)
+
+  	if sms_config:
+		print "Sending pipeline completion message"
+		send_sms(sms_config)
