@@ -8,9 +8,9 @@ from homogeneity_analysis_pipeline import main as homogeneity_analysis_pipeline
 from consensus_base_pipeline import main as consensus_base_pipeline 
 from genomic_purity_pipeline import main as genomic_purity_pipeline 
 from prepc.define_pipeline_params import *
-from prepc.sms_status import main as send_sms:
+from sms_status import main as send_sms
 
-def run_genome_eval_pipeline(parameters, pipe = "full"):
+def run_genome_eval_pipeline(parameters, sms_config, pipe = "full"):
 	''' Full genome evaluation pipeline takes an input parameter file and;
 	1. retrieves fastq files from SRA archive for provided Genbank accessions
 	2. indexes user provided reference genome sequence
@@ -43,6 +43,9 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
 
+  	if sms_config:
+		print "Sending pipeline start message"
+		send_sms(sms_config, message = "Starting PEPR pipeline")
 	print "Running step 1 of 4"
 	get_fastq_pipeline(analysis_params)
 	# if(pipe != 'full'):
@@ -62,12 +65,16 @@ def run_genome_eval_pipeline(parameters, pipe = "full"):
 
 	print "Running step 4 of 4"
 	#for i in analysis_params['plat']:
-	pilon_pipeline('miseq', analysis_params)	
+	pilon_pipeline('miseq', analysis_params)
+
+	if sms_config:
+		print "Sending pipeline completion message"
+		send_sms(sms_config)
 
 
 	
 
-def run_genome_characterization_pipeline(parameters):
+def run_genome_characterization_pipeline(parameters, sms_config):
 	''' Full prmcp miseq pipeline takes an input parameter file and;
 	1. indexes reference
 	2. maps all reads to reference
@@ -129,7 +136,7 @@ def run_genome_characterization_pipeline(parameters):
 	print "Running step 5 of 6"
 	homogeneity_analysis_pipeline(analysis_params)
 
-def run_genomic_purity_pipeline(parameters):
+def run_genomic_purity_pipeline(parameters, sms_config):
 	''' Genomic purity pipeline;
 	1. runs pathoqc on input files
 	2. maps reads to reference DB
