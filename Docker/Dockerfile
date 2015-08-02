@@ -94,7 +94,7 @@ RUN git clone --recursive https://github.com/ekg/vcflib.git; \
 # installing cement
 RUN pip install joblib
 RUN pip install pyYAML
-RUN pipe install sinchsms
+RUN pip install sinchsms
 
 VOLUME /pepr-data
 WORKDIR /pepr-data
