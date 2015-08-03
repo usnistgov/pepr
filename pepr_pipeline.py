@@ -111,7 +111,7 @@ def run_genome_characterization_pipeline(parameters):
 
 
 	print "Running step 1 of 5"
-	#index_ref_pipeline(analysis_params)
+	index_ref_pipeline(analysis_params)
 
 	print "Running step 2 of 5"
 	map_pipeline(analysis_params, refine = True)
@@ -120,11 +120,14 @@ def run_genome_characterization_pipeline(parameters):
 	qc_stats_pipeline(analysis_params)
 
 	print "Running step 4 of 5"
-	#consensus_base_pipeline(analysis_params)
+	consensus_base_pipeline(analysis_params)
 
 	print "Running step 5 of 5"
-	homogeneity_analysis_pipeline(analysis_params)
-
+	if "miseq" in analysis_params['plat']:
+		homogeneity_analysis_pipeline(analysis_params)
+	else:
+		print "No miseq data skipping homogeneity analysis"
+		
 def run_genomic_purity_pipeline(parameters):
 	''' Genomic purity pipeline;
 	1. runs pathoqc on input files
