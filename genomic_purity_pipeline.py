@@ -3,6 +3,8 @@ import sys
 import re 
 import subprocess
 from prepc.pathoscope_commands import *
+import multiprocessing
+num_cores = multiprocessing.cpu_count()
 
 def main(analysis_params):
     for i in analysis_params['accessions']:
@@ -13,7 +15,7 @@ def main(analysis_params):
                         fastq2=analysis_params[i]['fastq2'],
                         log_dir = analysis_params[i]['genomic_purity_log'], 
                         out_dir=analysis_params['genomic_purity']['tmp_dir'],
-                        thread_num= 8)
+                        thread_num = num_cores)
 
         ## running pathomap
         acc_tmp_dir = analysis_params['genomic_purity']['tmp_dir'] + "/" + i
@@ -25,7 +27,8 @@ def main(analysis_params):
                          fastq2=analysis_params[i]['trimmed_fastq2'], 
                          log_dir = analysis_params[i]['genomic_purity_log'],
                          out_dir=acc_tmp_dir,
-                         out_sam=analysis_params['pathomap_sam'])
+                         out_sam=analysis_params['pathomap_sam'],
+                         thread_num = num_cores)
         
         ## running pathoid
         pathoid_command( input_sam=analysis_params[i]['pathomap_sam'],
