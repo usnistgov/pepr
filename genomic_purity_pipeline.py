@@ -9,16 +9,17 @@ num_cores = multiprocessing.cpu_count()
 from prepc.pathoscope_commands import *
 
 def parallelPathoQC(i, analysis_params):
-    if not os.path.isfile(analysis_params[i]['trimmed_fastq1']) or \
+    if not os.path.isfile(analysis_params[i]['trimmed_fastq1']) and \
         os.path.isfile(analysis_params[i]['trimmed_fastq2']):
         pathoqc_command(plat=analysis_params[i]['plat'],
                 fastq1=analysis_params[i]['fastq1'],
                 fastq2=analysis_params[i]['fastq2'],
                 log_dir = analysis_params[i]['genomic_purity_log'], 
                 out_dir=analysis_params['genomic_purity']['tmp_dir'],
-                thread_num= "4")
-        assert os.path.isfile(analysis_params[i]['trimmed_fastq1'])
-        assert os.path.isfile(analysis_params[i]['trimmed_fastq2'])
+                thread_num= str(num_cores))
+        
+    assert os.path.isfile(analysis_params[i]['trimmed_fastq1'])
+    assert os.path.isfile(analysis_params[i]['trimmed_fastq2'])
 
 def ParallelPathoMapID(i, analysis_params):
     # need to add skips
@@ -48,7 +49,7 @@ def main(analysis_params):
         print "Running pathoscope pipeline"
         
         # read quality control - filters low quality reads
-        n_jobs = num_cores/4
+        n_jobs = num_cores/num_cores
         Parallel(n_jobs=n_jobs)(delayed(parallelPathoQC)(i, analysis_params) for i in analysis_params['accessions'])
         
         ## running pathomap and pathoid
