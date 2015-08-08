@@ -9,17 +9,17 @@ num_cores = multiprocessing.cpu_count()
 from prepc.pathoscope_commands import *
 
 def parallelPathoQC(i, analysis_params):
-    if not os.path.isfile(analysis_params[i]['trimmed_fastq1']) and \
-        os.path.isfile(analysis_params[i]['trimmed_fastq2']):
-        pathoqc_command(plat=analysis_params[i]['plat'],
-                fastq1=analysis_params[i]['fastq1'],
-                fastq2=analysis_params[i]['fastq2'],
-                log_dir = analysis_params[i]['genomic_purity_log'], 
-                out_dir=analysis_params['genomic_purity']['tmp_dir'],
-                thread_num= str(num_cores))
+    # if not os.path.isfile(analysis_params[i]['trimmed_fastq1']) and \
+    #     os.path.isfile(analysis_params[i]['trimmed_fastq2']):
+    pathoqc_command(plat=analysis_params[i]['plat'],
+            fastq1=analysis_params[i]['fastq1'],
+            fastq2=analysis_params[i]['fastq2'],
+            log_dir = analysis_params[i]['genomic_purity_log'], 
+            out_dir=analysis_params['genomic_purity']['tmp_dir'],
+            thread_num= str(num_cores))
         
-    assert os.path.isfile(analysis_params[i]['trimmed_fastq1'])
-    assert os.path.isfile(analysis_params[i]['trimmed_fastq2'])
+    # assert os.path.isfile(analysis_params[i]['trimmed_fastq1'])
+    # assert os.path.isfile(analysis_params[i]['trimmed_fastq2'])
 
 def ParallelPathoMapID(i, analysis_params):
     # need to add skips
