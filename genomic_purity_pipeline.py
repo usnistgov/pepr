@@ -1,21 +1,24 @@
 # ### genomic purity pipeline
 import sys
 import re 
+import os
 import subprocess
-from prepc.pathoscope_commands import *
 import multiprocessing
 num_cores = multiprocessing.cpu_count()
+from prepc.pathoscope_commands import *
+
 
 def main(analysis_params):
     for i in analysis_params['accessions']:
         print "Running pathoscope pipeline"
-        ## read quality control - filters low quality reads
+
+        # read quality control - filters low quality reads
         pathoqc_command(plat=analysis_params[i]['plat'],
                         fastq1=analysis_params[i]['fastq1'],
                         fastq2=analysis_params[i]['fastq2'],
                         log_dir = analysis_params[i]['genomic_purity_log'], 
                         out_dir=analysis_params['genomic_purity']['tmp_dir'],
-                        thread_num = num_cores)
+                        thread_num= str(num_cores))
 
         ## running pathomap
         acc_tmp_dir = analysis_params['genomic_purity']['tmp_dir'] + "/" + i
