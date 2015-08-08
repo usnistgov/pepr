@@ -31,7 +31,7 @@ def main(analysis_params):
                          log_dir = analysis_params[i]['genomic_purity_log'],
                          out_dir=acc_tmp_dir,
                          out_sam=analysis_params['pathomap_sam'],
-                         thread_num = num_cores)
+                         thread_num = str(num_cores))
         
         ## running pathoid
         pathoid_command( input_sam=analysis_params[i]['pathomap_sam'],
