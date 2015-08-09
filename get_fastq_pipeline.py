@@ -1,12 +1,11 @@
-## Pipeline for retrieving fastq from sra archive
-import sys
-import re
+# Pipeline for retrieving fastq from sra archive
 import subprocess
-from prepc.sra_commands import *
+from prepc.sra_commands import sra_get_fastq
+
 
 def main(analysis_params):
-	for i in analysis_params['plat']:
-	    for j in analysis_params[i]['accessions']:
-    		acc_log_dir = analysis_params['fastq_dir'] + "/log/" + j
-        	subprocess.call(['mkdir','-p', acc_log_dir])
-        	sra_get_fastq(i,j,analysis_params['fastq_dir'], acc_log_dir)
+    for i in analysis_params['plat']:
+        for j in analysis_params[i]['accessions']:
+            acc_log_dir = analysis_params['fastq_dir'] + "/log/" + j
+            subprocess.call(['mkdir', '-p', acc_log_dir])
+            sra_get_fastq(i, j, analysis_params['fastq_dir'], acc_log_dir)
