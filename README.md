@@ -22,7 +22,7 @@ __Running PEPR__
   * A config file is used to define the metadata for the sequencing datasets used in the pipeline.
 
 After the running PEPR evaluation, characterization, and genomic_purity
-pipelines the R package `peprr`[^peprr] is used to generate a SQLite database `peprDB` with the results for use in downstream analysis. `peprDB` is used to generate a generic Report of Analysis.
+pipelines the R package `peprr` (https://github.com/usnistgov/peprr) is used to generate a SQLite database `peprDB` with the results for use in downstream analysis. `peprDB` is used to generate a generic Report of Analysis.
 
 # Running PEPR
 ## Generating the config file
@@ -174,5 +174,3 @@ The `evaluation` and `characterization` pipelines can be run directly from the c
 
 # Disclaimer
 Certain commercial equipment, instruments, or materials are identified here only to specify the experimental procedure adequately. Such identification is not intended to imply recommendation or endorsement by NIST, nor is it intended to imply that the materials or equipment identified are necessarily the best available for the purpose.
-
-[^peprr] https://github.com/usnistgov/peprr
