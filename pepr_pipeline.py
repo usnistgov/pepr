@@ -150,6 +150,9 @@ def run_genomic_purity_pipeline(parameters):
 							"_" + pipeline_params['project_id'] + "_genomic_purity_parameters.yaml"
 	with open(param_out, 'w') as f:
   		yaml.dump(analysis_params, f, default_flow_style=False, encoding = None)
-
+	
+	print "downloading fastq"
+	get_fastq_pipeline(analysis_params)
+	
   	print "Running genomic purity pipeline"
   	genomic_purity_pipeline(analysis_params)
