@@ -172,7 +172,9 @@ def run_genomic_purity_pipeline(parameters, sms_config):
   	if sms_config:
 		print "Sending pipeline start message"
 		send_sms(sms_config, message = "Starting PEPR pipeline")
-
+	print "Downloading fastq files" 
+	get_fastq_pipeline(analysis_params)
+	
   	print "Running genomic purity pipeline"
   	genomic_purity_pipeline(analysis_params)
 
