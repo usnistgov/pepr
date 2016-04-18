@@ -16,12 +16,11 @@ def parallelPathoQC(i, analysis_params):
             fastq2=analysis_params[i]['fastq2'],
             log_dir = analysis_params[i]['genomic_purity_log'], 
             out_dir=analysis_params['genomic_purity']['tmp_dir'],
-            thread_num= str(num_cores))
-        
+            thread_num= str(num_cores))    
     # assert os.path.isfile(analysis_params[i]['trimmed_fastq1'])
     # assert os.path.isfile(analysis_params[i]['trimmed_fastq2'])
 
-def ParallelPathoMapID(i, analysis_params):
+def parallelPathoMapID(i, analysis_params):
     # need to add skips
     acc_tmp_dir = analysis_params['genomic_purity']['tmp_dir'] + "/" + i
     subprocess.call(['mkdir','-p', acc_tmp_dir])
