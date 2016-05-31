@@ -10,9 +10,9 @@ def pathoqc_command(plat, fastq1, log_dir, out_dir, thread_num, fastq2=False):
     pathoqc_command = ["python","/PathoScope/pathoqc_v0.1.2/pathoqc.py"]
     
     if fastq2 != None:
-        pathoqc_command = pathoqc_command + ['-1',fastq1, '-2',fastq2,'-s',plat,'-p',str(thread_num),'-o',out_dir]
+        pathoqc_command = pathoqc_command + ['-1',fastq1, '-2',fastq2,'-s',plat,'-p','8','-o',out_dir]
     else:
-        pathoqc_command = pathoqc_command + ['-1',fastq1,'-s',plat,'-p',str(thread_num),'-o',out_dir]
+        pathoqc_command = pathoqc_command + ['-1',fastq1,'-s',plat,'-p','8','-o',out_dir]
     subprocess.call(pathoqc_command, stdout=log_file, stderr=stderr_file)        
 
 def pathomap_command(ref_path, index_dir, fastq1, log_dir, out_dir, out_sam, thread_num, exptag,fastq2=False):

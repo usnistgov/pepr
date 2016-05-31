@@ -48,11 +48,11 @@ def main(analysis_params):
         print "Running pathoscope pipeline"
         
         # read quality control - filters low quality reads
-        n_jobs = num_cores/num_cores
+        n_jobs = num_cores/16
         Parallel(n_jobs=n_jobs)(delayed(parallelPathoQC)(i, analysis_params) for i in analysis_params['accessions'])
         
         ## running pathomap and pathoid
-        n_jobs = num_cores/8
+        n_jobs = num_cores/16
         Parallel(n_jobs=n_jobs)(delayed(parallelPathoMapID)(i, analysis_params) for i in analysis_params['accessions'])
 
         # ## running pathomap
