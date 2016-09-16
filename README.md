@@ -3,6 +3,8 @@ Bioinformatic Pipeline for evaluating and charcterizing a reference genome seque
 
 Whole genome sequencing and bioinformatic analysis is a complex process for which the sources of bias and error and not fully understood.  The methods presented here are intended to help users better characterize and understand their material not to provide a error free reference genome.  Results generated from this pipeline are indended for research use only.  
 
+Genome sequences and additional information about the NIST microbial genomic reference materials is available at https://github.com/usnistgov/NIST_Micro_Genomic_RM_Data. 
+
 # PEPR Overview
 
 __The bioinformatic component of PEPR consists of three parts:__
@@ -101,7 +103,7 @@ The `evaluation` and `characterization` pipelines can be run directly from the c
 
 3. Output
   1. Primary
-    1. qc - `_stat` and `depth` files in `/media/micro_rm_4TB/pepr-data/project_id/ref_qc_metrics` directory. Directory `project_id` and `ref` are the values in the YAML config file.
+    1. qc - `_stat` and `depth` files in `/path/to/pepr-data/project_id/ref_qc_metrics` directory. Directory `project_id` and `ref` are the values in the YAML config file.
     2. `tsv` files in `path/to/pepr-data/project_id/ref_consensus` directory
     3. `snp` and `indel` files in `path/to/pepr-data/project_id/ref_homogeneity`
   2. Additional 
@@ -131,7 +133,7 @@ The `evaluation` and `characterization` pipelines can be run directly from the c
         python /pepr/pepr.py -c pipeline_config.yaml -p genomic_purity --send_status sinch_config.yaml --send_number +1##########
   4. Output
     1. Primary
-        1. `-sam-report.tsv` in `/media/micro_rm_4TB/pepr-data/project_id/ref_genomic_purity` directory
+        1. `-sam-report.tsv` in `/path/to/pepr-data/project_id/ref_genomic_purity` directory
   5. Next step after pipeline completes
     1. use `ls -lh` to check for empty `-sam-report.tsv` files
 
